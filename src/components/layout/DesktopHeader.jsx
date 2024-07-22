@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { User } from "lucide-react";
+import { CookieIcon, User } from "lucide-react";
+import Image from "next/image";
 import { isEq } from "@/lib/utils";
 import { Button } from "@/components/shared/Button";
 import { useToast } from "@/components/shared/Toast/use-toast";
@@ -13,11 +14,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuGroup,
-  Dropd
+  DropdownMenuGroup
 } from "@/components/shared/DropdownMenu";
 import { ToastAction } from "../shared/Toast";
 import { createClient } from "@/lib/supabase/component";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../shared/Tooltip";
 
 const DesktopHeader = () => {
   const { toast } = useToast();
@@ -48,18 +49,14 @@ const DesktopHeader = () => {
   return (
     <nav className="hidden w-full h-full justify-between items-center md:flex">
       <span className="flex gap-x-6">
-        <Link
-          className={`text-slate-950 ${isActiveLink("/faq") ? "" : "opacity-60"} hover:underline hover:opacity-80 text-sm`}
-          href="/faq"
-        >
-          Dashboard
-        </Link>
-        <Link
-          className={`text-slate-950 ${isActiveLink("/faq") ? "" : "opacity-60"} hover:underline hover:opacity-80 text-sm`}
-          href="/faq"
-        >
-          Resources
-        </Link>
+        {user && (
+          <Link
+            className={`text-slate-950 ${isActiveLink("/faq") ? "" : "opacity-60"} hover:underline hover:opacity-80 text-sm`}
+            href="/dashboard"
+          >
+            Dashboard
+          </Link>
+        )}
       </span>
       {user ? (
         <DropdownMenu>
@@ -69,13 +66,36 @@ const DesktopHeader = () => {
           <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none text-gray-600">
-                  {profile?.rank} {profile?.name}
-                </p>
-                <p className="text-xs leading-none text-gray-400">
-                  {profile?.platoon}{" "}
-                  {profile?.section && `Section ${profile.section}`}{" "}
-                  {profile?.appointment}
+                <Tooltip>
+                  <TooltipTrigger className="text-left">
+                    <Link
+                      href="/me"
+                      className="text-slate-950 space-y-1 hover:underline hover:opacity-80"
+                    >
+                      <p className="text-sm font-medium leading-none text-gray-600">
+                        {profile?.rank} {profile?.name}
+                      </p>
+                      <p className="text-xs leading-none text-gray-400">
+                        {profile?.platoon}{" "}
+                        {profile?.section && `Section ${profile.section}`}{" "}
+                        {profile?.appointment}
+                      </p>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-sm">Go to account page</p>
+                  </TooltipContent>
+                </Tooltip>
+
+                <p className="text-xs flex items-center gap-x-1 font-semibold leading-none text-gray-700">
+                  <Image
+                    style={{ objectFit: "contain" }}
+                    src="/assets/coin.png"
+                    alt="logo"
+                    width={15}
+                    height={15}
+                  />
+                  {profile?.dutyPoints}
                 </p>
               </div>
             </DropdownMenuLabel>

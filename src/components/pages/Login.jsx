@@ -58,7 +58,7 @@ const LoginPage = () => {
       title: "Login success",
       description: "Please do not abuse the system!"
     });
-    router.replace("/");
+    router.replace("/dashboard");
   };
 
   const onError = (error) => {
