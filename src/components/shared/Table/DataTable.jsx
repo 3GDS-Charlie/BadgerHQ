@@ -14,13 +14,14 @@ import {
   TableRow
 } from "@/components/shared/Table";
 
-// setData and allPersonnels must both be given if either of them are given
 export function DataTable({
   className,
   columns,
   data,
   setData,
   allPersonnels = [],
+  commanders = [],
+  troopers = [],
   state
 }) {
   const table = useReactTable({
@@ -37,14 +38,22 @@ export function DataTable({
               return {
                 ...old?.personnels[rowIndex],
                 [columnId]: value,
-                id: value
+                id: value,
+                dutyPoints: (() => {
+                  const personnel = allPersonnels.find(
+                    (person) => person.id === value
+                  );
+                  return personnel ? personnel.duty_points : null;
+                })()
               };
             }
             return row;
           })
         }));
       },
-      allPersonnels
+      allPersonnels,
+      commanders,
+      troopers
     }
   });
 

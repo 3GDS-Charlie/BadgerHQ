@@ -37,8 +37,16 @@ export const isDatePast = (date) => {
 export const fillMissingAppointment = (existingPersonnels) => {
   // Create a map of existing personnel by role
   const personnelMap = existingPersonnels.reduce(
-    (acc, { id, appointment, platoon, contact, rank, name }) => {
-      acc[appointment] = { id, appointment, platoon, contact, rank, name };
+    (acc, { id, appointment, platoon, contact, rank, name, dutyPoints }) => {
+      acc[appointment] = {
+        id,
+        appointment,
+        platoon,
+        contact,
+        rank,
+        name,
+        dutyPoints
+      };
       return acc;
     },
     {}
@@ -56,7 +64,8 @@ export const fillMissingAppointment = (existingPersonnels) => {
         platoon: null,
         contact: null,
         rank: null,
-        name: null
+        name: null,
+        dutyPoints: null
       }
   );
 
@@ -79,9 +88,3 @@ export const calculateGDPoints = (date, twoPoints = false) => {
   }
   return points;
 };
-
-export const convertPersonnelArrayToObject = (array) =>
-  array.reduce((acc, current) => {
-    acc[current.appointment] = current;
-    return acc;
-  }, {});

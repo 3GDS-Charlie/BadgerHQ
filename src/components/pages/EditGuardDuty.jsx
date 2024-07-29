@@ -7,14 +7,17 @@ import dayjs from "dayjs";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { DataTable } from "@/components/shared/Table/DataTable";
-import { EDITABLE_GUARD_DUTY_COLUMNS } from "@/lib/data";
+import {
+  COMMANDER_RANK,
+  EDITABLE_GUARD_DUTY_COLUMNS,
+  TROOPER_RANK
+} from "@/lib/data";
 import { Card, CardContent } from "@/components/shared/Card";
 import { Button } from "@/components/shared/Button";
 import { useToast } from "@/components/shared/Toast/use-toast";
 import { createClient } from "@/lib/supabase/component";
 import {
   calculateGDPoints,
-  convertPersonnelArrayToObject,
   fillMissingAppointment,
   isDatePast
 } from "@/lib/utils";
@@ -35,7 +38,8 @@ const EditGuardDutyPage = () => {
   const { id } = router.query;
   const [data, setData] = useState([]);
   const [allPersonnels, setAllPersonnels] = useState([]);
-  const [originalGDPersonnel, setOriginalGDPersonnel] = useState([]);
+  const [commanders, setCommanders] = useState([]);
+  const [troopers, setTroopers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const supabaseClient = createClient();
@@ -90,6 +94,7 @@ const EditGuardDutyPage = () => {
               id: null,
               rank: null,
               name: null,
+              dutyPoints: null,
               appointment: oneGDPersonnel.appointment
             };
           }
@@ -98,15 +103,14 @@ const EditGuardDutyPage = () => {
             id: personnelProfile.id,
             rank: personnelProfile.rank,
             name: personnelProfile.name,
+            dutyPoints: personnelProfile.duty_points,
             appointment: oneGDPersonnel.appointment
           };
         })
       );
-      setOriginalGDPersonnel(personnelInfo);
 
       // Fill missing appointments with null values for rank and name
       const completePersonnels = fillMissingAppointment(personnelInfo);
-
       setData({
         location: guardDutyDates.location,
         date: guardDutyDates.date,
@@ -121,6 +125,16 @@ const EditGuardDutyPage = () => {
         setError(true);
       }
       setAllPersonnels(allPersonnelProfile);
+      setCommanders(
+        allPersonnelProfile.filter((oneData) =>
+          COMMANDER_RANK.includes(oneData.rank)
+        )
+      );
+      setTroopers(
+        allPersonnelProfile.filter((oneData) =>
+          TROOPER_RANK.includes(oneData.rank)
+        )
+      );
       setLoading(false);
     })();
   }, [id]);
@@ -129,8 +143,6 @@ const EditGuardDutyPage = () => {
     const personnelToBeInserted = [];
     const personnelToBeUpdated = [];
     const personnelToBeDeleted = [];
-    const originalPersonnelObj =
-      convertPersonnelArrayToObject(originalGDPersonnel);
     let gotError = false;
 
     // Step 1: Retrieve existing personnel for the current guard duty
@@ -328,6 +340,8 @@ const EditGuardDutyPage = () => {
             data={data?.personnels || []}
             setData={setData}
             allPersonnels={allPersonnels}
+            commanders={commanders}
+            troopers={troopers}
             state={{
               columnVisibility: {
                 id: false

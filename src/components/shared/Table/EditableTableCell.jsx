@@ -16,6 +16,15 @@ const EditableTableCell = ({ getValue, row, column, table }) => {
   const onChange = (newValue) => {
     table.options.meta?.updateData(row.index, column.id, newValue);
   };
+  const appointment = row.getValue("appointment");
+  let selectList = table.options.meta?.troopers;
+  if (
+    appointment === "GUARD COMMANDER" ||
+    appointment === "GUARD IC" ||
+    appointment === "RESERVE GUARD COMMANDER"
+  ) {
+    selectList = table.options.meta?.commanders;
+  }
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger>
@@ -23,7 +32,7 @@ const EditableTableCell = ({ getValue, row, column, table }) => {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value={null}>Empty</SelectItem>
-        {table.options.meta?.allPersonnels.map((onePersonnel, index) => (
+        {selectList.map((onePersonnel, index) => (
           <SelectItem key={index} value={onePersonnel.id}>
             {onePersonnel.rank} {onePersonnel.name}
           </SelectItem>

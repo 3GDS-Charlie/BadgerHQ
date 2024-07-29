@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+import Image from "next/image";
 import EditableTableCell from "@/components/shared/Table/EditableTableCell";
 
 export const MONTHS = [
@@ -86,6 +88,28 @@ export const EDITABLE_GUARD_DUTY_COLUMNS = [
         </kbd>
       );
     }
+  },
+  {
+    accessorKey: "dutyPoints",
+    header: "Current Duty Points",
+    cell: ({ row }) => {
+      const dutyPoints = row.getValue("dutyPoints");
+      if (dutyPoints === null) {
+        return <p>Empty</p>;
+      }
+      return (
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground opacity-100">
+          {dutyPoints}
+          <Image
+            style={{ objectFit: "contain" }}
+            src="/assets/coin.png"
+            alt="logo"
+            width={10}
+            height={10}
+          />
+        </kbd>
+      );
+    }
   }
 ];
 
@@ -171,3 +195,28 @@ export const GUARD_ROLES = {
     "RESERVE GUARD 2"
   ]
 };
+
+export const COMMANDER_RANK = [
+  "3SG",
+  "2SG",
+  "1SG",
+  "SSG",
+  "MSG",
+  "3WO",
+  "2WO",
+  "1WO",
+  "MWO",
+  "SWO",
+  "CWO",
+  "2LT",
+  "LTA",
+  "CPT",
+  "MAJ",
+  "LTC",
+  "SLTC",
+  "COL",
+  "BG",
+  "MG",
+  "LG"
+];
+export const TROOPER_RANK = ["PFC", "LCP", "CPL", "CFC"];
