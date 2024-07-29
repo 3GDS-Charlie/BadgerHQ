@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import MainLayout from "@/components/layout/MainLayout";
-import { Button } from "@/components/shared/Button";
 import {
   Tabs,
   TabsContent,
@@ -14,29 +14,55 @@ import GuardDuty from "../dashboard/GuardDuty";
 const DashboardPage = () => {
   const router = useRouter();
   const { user } = useContext(AuthContext);
+  const searchParams = useSearchParams();
+  const searchParamsObj = Object.fromEntries(searchParams);
+  const { tab: currentTab } = searchParamsObj;
+
   return (
     <MainLayout title="Dashboard - Badger HQ">
       <div className="m-auto h-full w-full max-w-screen-xl px-6 sm:px-16 mb-16">
         <h1 className="font-bold text-2xl">Dashboard</h1>
-        <Tabs defaultValue="overview" className="mt-4">
+        <Tabs value={currentTab || "overview"} className="mt-4">
           <TabsList>
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="paradeState">Parade State</TabsTrigger>
-            <TabsTrigger value="resources">Resources</TabsTrigger>
-            <TabsTrigger value="conductTracking">Conduct Tracking</TabsTrigger>
-            <TabsTrigger value="guardDuty">Guard Duty</TabsTrigger>
-            <TabsTrigger value="commanderDuty">Commmander Duty</TabsTrigger>
+            <TabsTrigger
+              onClick={() =>
+                router.replace({
+                  query: { ...router.query, tab: "overview" }
+                })
+              }
+              value="overview"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger
+              onClick={() =>
+                router.replace({
+                  query: { ...router.query, tab: "guardDuty" }
+                })
+              }
+              value="guardDuty"
+            >
+              Guard Duty
+            </TabsTrigger>
+            <TabsTrigger
+              onClick={() =>
+                router.replace({
+                  query: { ...router.query, tab: "dutyPoints" }
+                })
+              }
+              value="dutyPoints"
+            >
+              Duty Points
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
             <p>this is empty for now.</p>
           </TabsContent>
-          <TabsContent value="paradeState"></TabsContent>
-          <TabsContent value="resources"></TabsContent>
           <TabsContent value="conductTracking"></TabsContent>
           <TabsContent value="guardDuty">
             <GuardDuty />
           </TabsContent>
-          <TabsContent value="commanderDuty"></TabsContent>
+          <TabsContent value="dutyPoints"></TabsContent>
         </Tabs>
       </div>
     </MainLayout>

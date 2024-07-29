@@ -2,20 +2,21 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Loader2 } from "lucide-react";
-import { DataTable } from "@/components/shared/Table/DataTable";
+import { useRouter } from "next/router";
 import { Combobox } from "@/components/shared/Combobox";
-import { GUARD_DUTY_COLUMNS, MONTHS, YEARS } from "@/lib/data";
+import { MONTHS, YEARS } from "@/lib/data";
 import { Card, CardContent } from "@/components/shared/Card";
 import { Button } from "@/components/shared/Button";
 import { createClient } from "@/lib/supabase/component";
-import { fillMissingAppointment, isDatePast } from "@/lib/utils";
+import { isDatePast } from "@/lib/utils";
 
 const GuardDuty = () => {
   const [data, setData] = useState([]);
   const [month, setMonth] = useState(MONTHS[dayjs().month()].value || "");
   const [loading, setLoading] = useState(true);
-  const [year, setYear] = useState(dayjs().year());
+  const [year, setYear] = useState(dayjs().year().toString());
   const supabaseClient = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -50,33 +51,12 @@ const GuardDuty = () => {
             console.error(error2);
             return;
           }
-
-          const personnelInfo = await Promise.all(
-            guardDutyPersonnel.map(async (oneGDPersonnel) => {
-              const { data: personnelProfile, error: error3 } =
-                await supabaseClient
-                  .from("profiles")
-                  .select()
-                  .eq("id", oneGDPersonnel.fk_user_id);
-
-              if (error3) {
-                console.error(error3);
-                return;
-              }
-
-              return {
-                rank: personnelProfile[0].rank,
-                name: personnelProfile[0].name,
-                appointment: oneGDPersonnel.appointment
-              };
-            })
-          );
-          console.log(personnelInfo);
-          const completePersonnels = fillMissingAppointment(personnelInfo);
+          const personnelCount = guardDutyPersonnel.length;
           return {
+            id: oneGuardDutyDate.id,
             location: oneGuardDutyDate.location,
             date: oneGuardDutyDate.date,
-            personnels: completePersonnels
+            personnelCount
           };
         })
       );
@@ -114,8 +94,8 @@ const GuardDuty = () => {
         ) : (
           data.map((oneData, index) => (
             <Card key={index}>
-              <CardContent>
-                <span className="flex flex-col gap-2 mt-4">
+              <CardContent className="flex items-center justify-between">
+                <span className="flex flex-col gap-2 mt-6">
                   <code className="font-mono text-gray-600 text-xs font-medium">
                     <b>Location:</b> {oneData?.location || "No Data"}
                   </code>
@@ -129,12 +109,18 @@ const GuardDuty = () => {
                     <b>Status:</b>{" "}
                     {isDatePast(oneData.date) ? "Completed" : "Not completed"}
                   </code>
+                  <code className="font-mono text-gray-600 text-xs font-medium">
+                    <b>Personnel Count:</b>{" "}
+                    {oneData.personnelCount || "No Data"}
+                  </code>
                 </span>
-                <DataTable
-                  className="mt-4"
-                  columns={GUARD_DUTY_COLUMNS}
-                  data={oneData?.personnels || []}
-                />
+                <Button
+                  onClick={() =>
+                    router.push(`/dashboard/viewGuardDuty/${oneData.id}`)
+                  }
+                >
+                  View more
+                </Button>
               </CardContent>
             </Card>
           ))

@@ -14,11 +14,38 @@ import {
   TableRow
 } from "@/components/shared/Table";
 
-export function DataTable({ className, columns, data }) {
+// setData and allPersonnels must both be given if either of them are given
+export function DataTable({
+  className,
+  columns,
+  data,
+  setData,
+  allPersonnels = [],
+  state
+}) {
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel()
+    state,
+    getCoreRowModel: getCoreRowModel(),
+    meta: {
+      updateData: (rowIndex, columnId, value) => {
+        setData((old) => ({
+          ...old,
+          personnels: old?.personnels?.map((row, index) => {
+            if (index === rowIndex) {
+              return {
+                ...old?.personnels[rowIndex],
+                [columnId]: value,
+                id: value
+              };
+            }
+            return row;
+          })
+        }));
+      },
+      allPersonnels
+    }
   });
 
   return (

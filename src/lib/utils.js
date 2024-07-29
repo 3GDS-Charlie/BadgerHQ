@@ -37,8 +37,8 @@ export const isDatePast = (date) => {
 export const fillMissingAppointment = (existingPersonnels) => {
   // Create a map of existing personnel by role
   const personnelMap = existingPersonnels.reduce(
-    (acc, { appointment, rank, name }) => {
-      acc[appointment] = { appointment, rank, name };
+    (acc, { id, appointment, platoon, contact, rank, name }) => {
+      acc[appointment] = { id, appointment, platoon, contact, rank, name };
       return acc;
     },
     {}
@@ -50,8 +50,38 @@ export const fillMissingAppointment = (existingPersonnels) => {
   // Create a new array with all appointment including missing ones
   const completePersonnels = allAppointments.map(
     (appointment) =>
-      personnelMap[appointment] || { appointment, rank: null, name: null }
+      personnelMap[appointment] || {
+        appointment,
+        id: null,
+        platoon: null,
+        contact: null,
+        rank: null,
+        name: null
+      }
   );
 
   return completePersonnels;
 };
+
+export const calculateGDPoints = (date, twoPoints = false) => {
+  // eslint-disable-next-line prefer-const
+  let points = 1; // weekday
+  if (!date) {
+    return null;
+  }
+  // check what day of the week is it
+  const dayOfTheWeek = new Date(date).getDay(); // 0 = sunday, 1 = monday, 6 = saturday, 5 = friday
+  // Sat/sun/public holiday
+  if (dayOfTheWeek === 1 || dayOfTheWeek === 6 || twoPoints) {
+    points = 2;
+  } else if (dayOfTheWeek === 5) {
+    points = 1.5;
+  }
+  return points;
+};
+
+export const convertPersonnelArrayToObject = (array) =>
+  array.reduce((acc, current) => {
+    acc[current.appointment] = current;
+    return acc;
+  }, {});
