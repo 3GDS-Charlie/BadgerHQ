@@ -75,6 +75,17 @@ export const EDITABLE_GUARD_DUTY_COLUMNS = [
     cell: EditableTableCell
   },
   {
+    accessorKey: "platoon",
+    header: "Platoon",
+    cell: ({ row }) => {
+      const platoon = row.getValue("platoon");
+      if (!platoon) {
+        return <p>Empty</p>;
+      }
+      return <p>{platoon}</p>;
+    }
+  },
+  {
     accessorKey: "appointment",
     header: "Appointment",
     cell: ({ row }) => {
@@ -169,6 +180,28 @@ export const GUARD_DUTY_COLUMNS = [
       return (
         <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground opacity-100">
           {appointment}
+        </kbd>
+      );
+    }
+  },
+  {
+    accessorKey: "dutyPoints",
+    header: "Current Duty Points",
+    cell: ({ row }) => {
+      const dutyPoints = row.getValue("dutyPoints");
+      if (dutyPoints === null) {
+        return <p className="text-red-500">Empty</p>;
+      }
+      return (
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground opacity-100">
+          {dutyPoints}
+          <Image
+            style={{ objectFit: "contain" }}
+            src="/assets/coin.png"
+            alt="logo"
+            width={10}
+            height={10}
+          />
         </kbd>
       );
     }

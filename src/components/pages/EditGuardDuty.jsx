@@ -91,6 +91,7 @@ const EditGuardDutyPage = () => {
             console.error(error3);
             setError(true);
             return {
+              platoon: null,
               id: null,
               rank: null,
               name: null,
@@ -100,6 +101,7 @@ const EditGuardDutyPage = () => {
           }
 
           return {
+            platoon: personnelProfile.platoon,
             id: personnelProfile.id,
             rank: personnelProfile.rank,
             name: personnelProfile.name,

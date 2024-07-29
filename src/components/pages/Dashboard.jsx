@@ -47,12 +47,12 @@ const DashboardPage = () => {
             <TabsTrigger
               onClick={() =>
                 router.replace({
-                  query: { ...router.query, tab: "dutyPoints" }
+                  query: { ...router.query, tab: "nominalRoll" }
                 })
               }
-              value="dutyPoints"
+              value="nominalRoll"
             >
-              Duty Points
+              Nominal Roll
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">

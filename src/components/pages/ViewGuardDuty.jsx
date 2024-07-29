@@ -83,6 +83,7 @@ const ViewGuardDutyPage = () => {
               platoon: null,
               rank: null,
               name: null,
+              dutyPoints: null,
               appointment: oneGDPersonnel.appointment
             };
           }
@@ -92,6 +93,7 @@ const ViewGuardDutyPage = () => {
             platoon: personnelProfile.platoon,
             rank: personnelProfile.rank,
             name: personnelProfile.name,
+            dutyPoints: personnelProfile.duty_points,
             appointment: oneGDPersonnel.appointment
           };
         })

@@ -44,6 +44,12 @@ export function DataTable({
                     (person) => person.id === value
                   );
                   return personnel ? personnel.duty_points : null;
+                })(),
+                platoon: (() => {
+                  const personnel = allPersonnels.find(
+                    (person) => person.id === value
+                  );
+                  return personnel ? personnel.platoon : null;
                 })()
               };
             }
