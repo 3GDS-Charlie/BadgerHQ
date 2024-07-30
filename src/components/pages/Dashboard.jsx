@@ -10,6 +10,7 @@ import {
 } from "@/components/shared/Tabs";
 import AuthContext from "@/lib/context/AuthContext";
 import GuardDuty from "../dashboard/GuardDuty";
+import NominalRoll from "../dashboard/NominalRoll";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -58,11 +59,12 @@ const DashboardPage = () => {
           <TabsContent value="overview" className="space-y-4">
             <p>this is empty for now.</p>
           </TabsContent>
-          <TabsContent value="conductTracking"></TabsContent>
           <TabsContent value="guardDuty">
             <GuardDuty />
           </TabsContent>
-          <TabsContent value="dutyPoints"></TabsContent>
+          <TabsContent value="nominalRoll">
+            <NominalRoll />
+          </TabsContent>
         </Tabs>
       </div>
     </MainLayout>

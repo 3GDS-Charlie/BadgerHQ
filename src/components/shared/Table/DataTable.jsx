@@ -2,9 +2,11 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
 
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -24,10 +26,17 @@ export function DataTable({
   troopers = [],
   state
 }) {
+  const [sorting, setSorting] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
-    state,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      ...state,
+      sorting
+    },
     getCoreRowModel: getCoreRowModel(),
     meta: {
       updateData: (rowIndex, columnId, value) => {
