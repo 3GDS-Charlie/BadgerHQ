@@ -46,6 +46,9 @@ const NominalRoll = () => {
     <div className="flex flex-col mt-4">
       <span className="flex justify-between items-center mb-4">
         <h2 className="font-semibold text-lg mb-4">Nominal Roll</h2>
+        <p className="text-sm text-slate-500">
+          Duty points are added at the end of every month.
+        </p>
         <span className="flex gap-x-4">
           <Combobox
             value={platoon}
@@ -67,6 +70,11 @@ const NominalRoll = () => {
             columns={NOMINAL_ROLL_COLUMNS}
             data={data || []}
             setData={setData}
+            state={{
+              columnVisibility: {
+                id: false
+              }
+            }}
           />
         )}
       </div>

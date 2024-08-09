@@ -1,7 +1,18 @@
 /* eslint-disable no-restricted-globals */
 import Image from "next/image";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import Link from "next/link";
 import EditableTableCell from "@/components/shared/Table/EditableTableCell";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuGroup
+} from "@/components/shared/DropdownMenu";
+import { Button } from "@/components/shared/Button";
 
 export const MONTHS = [
   {
@@ -234,6 +245,10 @@ export const GUARD_DUTY_COLUMNS = [
 
 export const NOMINAL_ROLL_COLUMNS = [
   {
+    accessorKey: "id",
+    header: "id"
+  },
+  {
     accessorKey: "rank",
     header: "Rank",
     cell: ({ row }) => {
@@ -252,7 +267,8 @@ export const NOMINAL_ROLL_COLUMNS = [
       if (!name) {
         return <p className="text-red-500">Empty</p>;
       }
-      return <p>{name}</p>;
+      const id = row.getValue("id");
+      return <Link href={`/dashboard/viewProfile/${id}`}>{name}</Link>;
     }
   },
   {
@@ -364,6 +380,31 @@ export const NOMINAL_ROLL_COLUMNS = [
         return <p>Empty</p>;
       }
       return <p>{pantsSize}</p>;
+    }
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original;
+      const personnelId = row.getValue("id");
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem asChild>
+              <Link href={`/dashboard/profile/${personnelId}`}>View</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     }
   }
 ];

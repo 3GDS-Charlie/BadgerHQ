@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { CookieIcon, User } from "lucide-react";
+import { User } from "lucide-react";
 import Image from "next/image";
 import { isEq } from "@/lib/utils";
 import { Button } from "@/components/shared/Button";
