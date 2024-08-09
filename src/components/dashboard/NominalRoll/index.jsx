@@ -45,10 +45,12 @@ const NominalRoll = () => {
   return (
     <div className="flex flex-col mt-4">
       <span className="flex justify-between items-center mb-4">
-        <h2 className="font-semibold text-lg mb-4">Nominal Roll</h2>
-        <p className="text-sm text-slate-500">
-          Duty points are added at the end of every month.
-        </p>
+        <span>
+          <h2 className="font-semibold text-lg">Nominal Roll</h2>
+          <p className="text-sm text-left text-slate-500">
+            Duty points are added at the end of every month.
+          </p>
+        </span>
         <span className="flex gap-x-4">
           <Combobox
             value={platoon}

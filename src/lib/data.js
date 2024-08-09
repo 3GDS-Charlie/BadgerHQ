@@ -2,15 +2,14 @@
 import Image from "next/image";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
+import dayjs from "dayjs";
 import EditableTableCell from "@/components/shared/Table/EditableTableCell";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuGroup
+  DropdownMenuTrigger
 } from "@/components/shared/DropdownMenu";
 import { Button } from "@/components/shared/Button";
 
@@ -96,6 +95,62 @@ export const PLATOONS = [
   {
     value: "hq",
     label: "HQ"
+  }
+];
+
+export const DUTY_POINTS_TRANSACTIONS_COLUMNS = [
+  {
+    accessorKey: "duty_points",
+    header: "Duty Points",
+    cell: ({ row }) => {
+      const dutyPoints = row.getValue("duty_points");
+      return (
+        <kbd
+          className={`${dutyPoints < 0 && "text-red-500"} pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground opacity-100`}
+        >
+          {dutyPoints}
+          <Image
+            style={{ objectFit: "contain" }}
+            src="/assets/coin.png"
+            alt="logo"
+            width={10}
+            height={10}
+          />
+        </kbd>
+      );
+    }
+  },
+  {
+    accessorKey: "created_at",
+    header: "Timestamp",
+    cell: ({ row }) => {
+      const timestamp = row.getValue("created_at");
+      return (
+        <code className="font-mono text-gray-500 text-xs font-medium">
+          {dayjs(timestamp).format("h:mmA MMM DD, YYYY")}
+        </code>
+      );
+    }
+  },
+  {
+    accessorKey: "remarks",
+    header: "Remarks",
+    cell: ({ row }) => {
+      const remarks = row.getValue("remarks");
+      return <p className="text-xs text-gray-700 font-semibold">{remarks}</p>;
+    }
+  },
+  {
+    accessorKey: "id",
+    header: "Id",
+    cell: ({ row }) => {
+      const id = row.getValue("id");
+      return (
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+          {id}
+        </kbd>
+      );
+    }
   }
 ];
 

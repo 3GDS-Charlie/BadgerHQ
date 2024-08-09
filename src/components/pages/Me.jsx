@@ -1,10 +1,15 @@
 /* eslint-disable no-restricted-globals */
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Loader2 } from "lucide-react";
 import MainLayout from "@/components/layout/MainLayout";
 import AuthContext from "@/lib/context/AuthContext";
-import { Input } from "../shared/Input";
-import { Label } from "../shared/Label";
-import { Separator } from "../shared/Separator";
+import { Input } from "@/components/shared/Input";
+import { Label } from "@/components/shared/Label";
+import { Separator } from "@/components/shared/Separator";
+import { DataTable } from "@/components/shared/Table/DataTable";
+import { DUTY_POINTS_TRANSACTIONS_COLUMNS } from "@/lib/data";
+import { createClient } from "@/lib/supabase/component";
+import { Button } from "@/components/shared/Button";
 
 const MeFormFields = ({ label, value, className }) => (
   <div className={`gap-y-1 ${className}`}>
@@ -14,6 +19,66 @@ const MeFormFields = ({ label, value, className }) => (
 );
 const Me = () => {
   const { profile } = useContext(AuthContext);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [dutyPointsData, setDutyPointsData] = useState([]);
+  const supabaseClient = createClient();
+  const id = profile?.id;
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      setError(false);
+      if (!id) {
+        setLoading(false);
+        setError(true);
+        return;
+      }
+
+      const { data: dataPointsTransactions, error } = await supabaseClient
+        .from("duty_points_transaction_records")
+        .select()
+        .eq("fk_user_id", id)
+        .order("created_at", { ascending: false });
+      if (error) {
+        console.error(error);
+        setLoading(false);
+        setError(true);
+        return;
+      }
+      setLoading(false);
+      setError(false);
+      setDutyPointsData(dataPointsTransactions);
+    })();
+  }, [profile]);
+
+  if (loading) {
+    return (
+      <span className="w-full h-full flex justify-center items-center">
+        <Loader2 className="h-6 w-6 animate-spin" />
+      </span>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex w-full flex-col justify-center">
+        <p className="font-semibold text-primary">Error</p>
+        <h1 className="text-4xl mt-2 font-semibold text-slate-900">
+          Something went wrong
+        </h1>
+        <p className="text-md mt-2 text-slate-600">
+          Sorry, the page cannot be found.
+        </p>
+        <Button
+          className="mt-4 w-fit"
+          onClick={() => router.push("/dashboard")}
+        >
+          Take me to Dashboard
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <MainLayout title="Me - Badger HQ">
@@ -92,6 +157,23 @@ const Me = () => {
           <MeFormFields
             label="Current Work Year Best IPPT"
             value={"Guards Gold - 90" || "Not available"}
+          />
+        </div>
+        <Separator className="my-8" />
+        {/* Duty points history */}
+        <div>
+          <h2 className="font-bold text-xl">Duty Points Transactions</h2>
+          <DataTable
+            className="mt-4"
+            columns={DUTY_POINTS_TRANSACTIONS_COLUMNS}
+            data={dutyPointsData || []}
+            setData={setDutyPointsData}
+            state={{
+              columnVisibility: {
+                name: false,
+                rank: false
+              }
+            }}
           />
         </div>
       </div>

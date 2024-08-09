@@ -17,6 +17,8 @@ import {
 } from "@/components/shared/Breadcrumb";
 import { createClient } from "@/lib/supabase/component";
 import { Button } from "@/components/shared/Button";
+import { DataTable } from "@/components/shared/Table/DataTable";
+import { DUTY_POINTS_TRANSACTIONS_COLUMNS } from "@/lib/data";
 
 const ViewProfileFormFields = ({ label, value, className }) => (
   <div className={`gap-y-1 ${className}`}>
@@ -27,6 +29,7 @@ const ViewProfileFormFields = ({ label, value, className }) => (
 const ViewProfilePage = () => {
   const { profile } = useContext(AuthContext);
   const [data, setData] = useState([]);
+  const [dutyPointsData, setDutyPointsData] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const supabaseClient = createClient();
@@ -43,19 +46,34 @@ const ViewProfilePage = () => {
         return;
       }
 
-      const { data: personnelInfo, error } = await supabaseClient
+      const { data: personnelInfo, error: error1 } = await supabaseClient
         .from("profiles")
         .select()
         .eq("id", id)
         .single();
-      if (error) {
-        console.error(error);
+      if (error1) {
+        console.error(error1);
+        setLoading(false);
+        setError(true);
+        return;
+      }
+
+      const { data: dataPointsTransactions, error: error2 } =
+        await supabaseClient
+          .from("duty_points_transaction_records")
+          .select()
+          .eq("fk_user_id", id)
+          .order("created_at", { ascending: false });
+      if (error2) {
+        console.error(error2);
         setLoading(false);
         setError(true);
         return;
       }
       setLoading(false);
       setError(false);
+      console.log(dataPointsTransactions);
+      setDutyPointsData(dataPointsTransactions);
       setData(personnelInfo);
     })();
   }, [id]);
@@ -177,6 +195,23 @@ const ViewProfilePage = () => {
           <ViewProfileFormFields
             label="Pants Size"
             value={data?.pantsSize || "Not available"}
+          />
+        </div>
+        <Separator className="my-8" />
+        {/* Duty points history */}
+        <div>
+          <h2 className="font-bold text-xl">Duty Points Transactions</h2>
+          <DataTable
+            className="mt-4"
+            columns={DUTY_POINTS_TRANSACTIONS_COLUMNS}
+            data={dutyPointsData || []}
+            setData={setDutyPointsData}
+            state={{
+              columnVisibility: {
+                name: false,
+                rank: false
+              }
+            }}
           />
         </div>
       </div>
