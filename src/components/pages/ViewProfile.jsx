@@ -108,7 +108,7 @@ const ViewProfilePage = () => {
 
   return (
     <MainLayout title="View Profile - Badger HQ">
-      <div className="m-auto h-full w-full max-w-screen-md mt-8 px-6 sm:px-16 mb-16">
+      <div className="m-auto h-full w-full max-w-screen-lg mt-8 px-6 sm:px-16 mb-16">
         {/* TOP */}
         <span className="flex flex-col mb-4">
           <Breadcrumb>

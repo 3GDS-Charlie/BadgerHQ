@@ -82,7 +82,7 @@ const Me = () => {
 
   return (
     <MainLayout title="Me - Badger HQ">
-      <div className="m-auto h-full w-full max-w-screen-md mt-8 px-6 sm:px-16 mb-16">
+      <div className="m-auto h-full w-full max-w-screen-lg mt-8 px-6 sm:px-16 mb-16">
         <div className="gap-y-4 flex flex-col">
           <div>
             <h1 className="font-bold text-2xl">Account Information</h1>
