@@ -72,7 +72,6 @@ const ViewProfilePage = () => {
       }
       setLoading(false);
       setError(false);
-      console.log(dataPointsTransactions);
       setDutyPointsData(dataPointsTransactions);
       setData(personnelInfo);
     })();

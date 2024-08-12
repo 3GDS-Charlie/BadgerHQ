@@ -20,6 +20,7 @@ const GuardDuty = () => {
 
   useEffect(() => {
     (async () => {
+      if (year === "" || month === "") return;
       setLoading(true);
       const startOfMonth = dayjs(`${year}-${month}`)
         .startOf("month")
@@ -64,11 +65,11 @@ const GuardDuty = () => {
       setLoading(false);
     })();
   }, [month, year]);
-
+  console.log(year);
   return (
     <div className="flex flex-col mt-4">
       {/* TOP */}
-      <span className="flex justify-between items-center mb-4">
+      <span className="flex justify-between space-x-4 items-center mb-4">
         <h2 className="font-semibold text-lg mb-4">Guard Duty</h2>
         <span className="flex gap-x-4">
           <Combobox

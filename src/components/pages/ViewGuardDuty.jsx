@@ -161,7 +161,7 @@ const ViewGuardDutyPage = () => {
               </code>
               <span className="flex gap-x-1">
                 <code className="font-mono text-gray-600 text-xs font-medium">
-                  <b>Potential Duty Points:</b>{" "}
+                  <b>{!isDatePast(data?.date) && "Potential"} Duty Points:</b>{" "}
                   {data?.date && calculateGDPoints(data.date)}
                 </code>
                 <Image

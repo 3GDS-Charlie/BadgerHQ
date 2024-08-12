@@ -384,7 +384,15 @@ export const NOMINAL_ROLL_COLUMNS = [
   },
   {
     accessorKey: "dutyPoints",
-    header: "Current Duty Points",
+    header: ({ column }) => (
+      <span
+        className="flex items-center cursor-pointer select-none hover:underline"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Duty Points
+        <ArrowUpDown className="ml-1 h-4 w-4" />
+      </span>
+    ),
     cell: ({ row }) => {
       const dutyPoints = row.getValue("dutyPoints");
       if (dutyPoints === null) {

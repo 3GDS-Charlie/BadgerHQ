@@ -14,6 +14,7 @@ const NominalRoll = () => {
   const supabaseClient = createClient();
 
   useEffect(() => {
+    if (platoon === "") return;
     (async () => {
       setLoading(true);
       const { data: allPersonnel, error: error1 } = await supabaseClient
@@ -44,7 +45,7 @@ const NominalRoll = () => {
 
   return (
     <div className="flex flex-col mt-4">
-      <span className="flex justify-between items-center mb-4">
+      <span className="flex justify-between space-x-4 items-center mb-4">
         <span>
           <h2 className="font-semibold text-lg">Nominal Roll</h2>
           <p className="text-sm text-left text-slate-500">
