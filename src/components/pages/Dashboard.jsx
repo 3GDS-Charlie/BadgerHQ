@@ -11,7 +11,7 @@ import {
 import AuthContext from "@/lib/context/AuthContext";
 import GuardDuty from "../dashboard/GuardDuty";
 import NominalRoll from "../dashboard/NominalRoll";
-import DutyPoints from "../dashboard/DutyPoints";
+import ManageDutyPoints from "../dashboard/ManageDutyPoints";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -59,12 +59,12 @@ const DashboardPage = () => {
             <TabsTrigger
               onClick={() =>
                 router.replace({
-                  query: { ...router.query, tab: "dutyPoints" }
+                  query: { ...router.query, tab: "manageDutyPoints" }
                 })
               }
-              value="dutyPoints"
+              value="manageDutyPoints"
             >
-              Duty points
+              Manage Duty points
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
@@ -76,8 +76,8 @@ const DashboardPage = () => {
           <TabsContent value="nominalRoll">
             <NominalRoll />
           </TabsContent>
-          <TabsContent value="dutyPoints">
-            <DutyPoints />
+          <TabsContent value="manageDutyPoints">
+            <ManageDutyPoints />
           </TabsContent>
         </Tabs>
       </div>

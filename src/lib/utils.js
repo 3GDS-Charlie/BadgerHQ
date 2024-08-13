@@ -37,7 +37,10 @@ export const isDatePast = (date) => {
 export const fillMissingAppointment = (existingPersonnels) => {
   // Create a map of existing personnel by role
   const personnelMap = existingPersonnels.reduce(
-    (acc, { id, appointment, platoon, contact, rank, name, dutyPoints }) => {
+    (
+      acc,
+      { id, appointment, platoon, contact, rank, name, dutyPoints, signExtra }
+    ) => {
       acc[appointment] = {
         id,
         appointment,
@@ -45,7 +48,8 @@ export const fillMissingAppointment = (existingPersonnels) => {
         contact,
         rank,
         name,
-        dutyPoints
+        dutyPoints,
+        signExtra
       };
       return acc;
     },
@@ -65,7 +69,8 @@ export const fillMissingAppointment = (existingPersonnels) => {
         contact: null,
         rank: null,
         name: null,
-        dutyPoints: null
+        dutyPoints: null,
+        signExtra: false
       }
   );
 

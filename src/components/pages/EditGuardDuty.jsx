@@ -372,6 +372,12 @@ const EditGuardDutyPage = () => {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
+                <BreadcrumbLink href="/dashboard?tab=guardDuty">
+                  Guard Duty
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
                 <BreadcrumbPage>Edit Guard Duty</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>

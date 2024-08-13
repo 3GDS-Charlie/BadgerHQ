@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import Image from "next/image";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, CircleHelp, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import dayjs from "dayjs";
 import EditableTableCell from "@/components/shared/Table/EditableTableCell";
@@ -12,6 +12,11 @@ import {
   DropdownMenuTrigger
 } from "@/components/shared/DropdownMenu";
 import { Button } from "@/components/shared/Button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "@/components/shared/Tooltip";
 
 export const MONTHS = [
   {
@@ -292,6 +297,32 @@ export const GUARD_DUTY_COLUMNS = [
             width={10}
             height={10}
           />
+        </kbd>
+      );
+    }
+  },
+  {
+    accessorKey: "signExtra",
+    header: () => (
+      <Tooltip>
+        <TooltipTrigger className="flex cursor-pointer items-center select-none hover:underline">
+          Sign Extra
+          <CircleHelp className="ml-1 h-4 w-4" />
+        </TooltipTrigger>
+        <TooltipContent>
+          If true, it means that the duty personnel will not be awarded the
+          points for this duty.
+        </TooltipContent>
+      </Tooltip>
+    ),
+    cell: ({ row }) => {
+      const signExtra = row.getValue("signExtra");
+      if (signExtra === null || signExtra === undefined) {
+        return <p className="text-red-500">Empty</p>;
+      }
+      return (
+        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[11px] font-medium text-muted-foreground opacity-100">
+          {signExtra.toString()}
         </kbd>
       );
     }

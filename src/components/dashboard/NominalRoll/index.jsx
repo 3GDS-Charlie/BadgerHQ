@@ -78,6 +78,7 @@ const NominalRoll = () => {
                 id: false
               }
             }}
+            search
           />
         )}
       </div>

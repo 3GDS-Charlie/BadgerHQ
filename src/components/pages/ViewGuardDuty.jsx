@@ -84,16 +84,17 @@ const ViewGuardDutyPage = () => {
               rank: null,
               name: null,
               dutyPoints: null,
+              signExtra: null,
               appointment: oneGDPersonnel.appointment
             };
           }
-
           return {
             contact: personnelProfile.contact,
             platoon: personnelProfile.platoon,
             rank: personnelProfile.rank,
             name: personnelProfile.name,
             dutyPoints: personnelProfile.duty_points,
+            signExtra: oneGDPersonnel.sign_extra,
             appointment: oneGDPersonnel.appointment
           };
         })
@@ -204,6 +205,12 @@ const ViewGuardDutyPage = () => {
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/dashboard?tab=guardDuty">
+                  Guard Duty
+                </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

@@ -27,7 +27,8 @@ export function DataTable({
   allPersonnels = [],
   commanders = [],
   troopers = [],
-  state
+  state,
+  search = false
 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -81,17 +82,20 @@ export function DataTable({
 
   return (
     <>
-      <div className="relative ml-auto flex-1 md:grow-0">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          placeholder="Search by name..."
-          value={table.getColumn("name")?.getFilterValue() ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm pl-8"
-        />
-      </div>
+      {search && (
+        <div className="relative ml-auto flex-1 md:grow-0">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search by name..."
+            value={table.getColumn("name")?.getFilterValue() ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm pl-8"
+          />
+        </div>
+      )}
+
       <div className={`rounded-md border ${className}`}>
         <Table>
           <TableHeader>

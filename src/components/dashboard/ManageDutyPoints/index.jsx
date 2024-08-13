@@ -9,14 +9,14 @@ import {
   TooltipTrigger
 } from "@/components/shared/Tooltip";
 
-const DutyPoints = () => {
+const ManageDutyPoints = () => {
   const router = useRouter();
   const [platoon, setPlatoon] = useState("all");
   return (
     <div className="flex flex-col mt-4">
       <span className="flex justify-between space-x-4 items-center mb-4">
         <span>
-          <h2 className="font-semibold text-lg">Duty Points</h2>
+          <h2 className="font-semibold text-lg">Manage Duty Points</h2>
           <p className="text-sm text-left text-slate-500">
             For administrative use. Generate a list of points to be awarded to
             guard duty personnel mapped to the{" "}
@@ -73,4 +73,4 @@ const DutyPoints = () => {
   );
 };
 
-export default DutyPoints;
+export default ManageDutyPoints;
