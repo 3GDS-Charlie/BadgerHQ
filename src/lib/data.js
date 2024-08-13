@@ -336,7 +336,15 @@ export const NOMINAL_ROLL_COLUMNS = [
   },
   {
     accessorKey: "rank",
-    header: "Rank",
+    header: ({ column }) => (
+      <span
+        className="flex cursor-pointer select-none hover:underline"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Rank
+        <ArrowUpDown className="ml-1 h-4 w-4" />
+      </span>
+    ),
     cell: ({ row }) => {
       const rank = row.getValue("rank");
       if (!rank) {

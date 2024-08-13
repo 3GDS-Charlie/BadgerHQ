@@ -150,14 +150,6 @@ const Me = () => {
             label="Pants Size"
             value={profile?.pantsSize || "Not available"}
           />
-          <MeFormFields
-            label="HA Status"
-            value={"HA Build up" || "Not available"}
-          />
-          <MeFormFields
-            label="Current Work Year Best IPPT"
-            value={"Guards Gold - 90" || "Not available"}
-          />
         </div>
         <Separator className="my-8" />
         {/* Duty points history */}
