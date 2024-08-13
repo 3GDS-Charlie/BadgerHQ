@@ -112,7 +112,7 @@ const ViewGuardDutyPage = () => {
       setLoading(false);
     })();
   }, [id]);
-
+  console.log(data);
   const renderContent = () => {
     if (loading) {
       return (
@@ -185,6 +185,8 @@ const ViewGuardDutyPage = () => {
             className="mt-4"
             columns={GUARD_DUTY_COLUMNS}
             data={data?.personnels || []}
+            downloadable
+            csvFileName={`charlie_guard_duty_on_${dayjs(data.date).format("DDMMYYYY")}_d_${dayjs().format("DDMMYYYY")}`}
           />
         </CardContent>
       </Card>

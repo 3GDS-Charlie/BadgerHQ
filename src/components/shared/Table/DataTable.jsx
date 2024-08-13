@@ -6,6 +6,7 @@ import {
   useReactTable,
   getFilteredRowModel
 } from "@tanstack/react-table";
+import { parse, unparse } from "papaparse";
 
 import { useState } from "react";
 import { Search } from "lucide-react";
@@ -18,6 +19,7 @@ import {
   TableRow
 } from "@/components/shared/Table";
 import { Input } from "@/components/shared/Input";
+import { Button } from "../Button";
 
 export function DataTable({
   className,
@@ -28,10 +30,33 @@ export function DataTable({
   commanders = [],
   troopers = [],
   state,
-  search = false
+  search = false,
+  csvFileName = null,
+  downloadable = false
 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
+
+  const downloadCSV = (csvString) => {
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", csvFileName || "table_data.csv");
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const generateCSV = () => {
+    const headers = JSON.parse(
+      JSON.stringify(columns.map((col) => col.header))
+    ); // deepcopy so that we don't get the raw header with functions
+    const rows = data.map((row) => columns.map((col) => row[col.accessorKey]));
+    const csvString = unparse([headers, ...rows]);
+    downloadCSV(csvString);
+  };
 
   const table = useReactTable({
     data,
@@ -82,19 +107,28 @@ export function DataTable({
 
   return (
     <>
-      {search && (
-        <div className="relative ml-auto flex-1 md:grow-0">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search by name..."
-            value={table.getColumn("name")?.getFilterValue() ?? ""}
-            onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm pl-8"
-          />
-        </div>
-      )}
+      <span className="flex justify-between items-center">
+        {search ? (
+          <div className="relative flex-1">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search by name..."
+              value={table.getColumn("name")?.getFilterValue() ?? ""}
+              onChange={(event) =>
+                table.getColumn("name")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm pl-8"
+            />
+          </div>
+        ) : (
+          <span></span>
+        )}
+        {downloadable && (
+          <Button disabled={data.length === 0} onClick={generateCSV}>
+            Download CSV
+          </Button>
+        )}
+      </span>
 
       <div className={`rounded-md border ${className}`}>
         <Table>

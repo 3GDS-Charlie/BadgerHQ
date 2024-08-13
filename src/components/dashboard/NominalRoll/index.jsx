@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import dayjs from "dayjs";
 import { Combobox } from "@/components/shared/Combobox";
 import { createClient } from "@/lib/supabase/component";
 import { recursiveCamelCase } from "@/lib/utils";
@@ -79,6 +80,8 @@ const NominalRoll = () => {
               }
             }}
             search
+            downloadable
+            csvFileName={`charlie_nominal_roll_d_${dayjs().format("DDMMYYYY")}.csv`}
           />
         )}
       </div>
