@@ -79,6 +79,7 @@ const ViewGuardDutyPage = () => {
             console.error(error3);
             setError(true);
             return {
+              id: null,
               contact: null,
               platoon: null,
               rank: null,
@@ -89,6 +90,7 @@ const ViewGuardDutyPage = () => {
             };
           }
           return {
+            id: personnelProfile.id,
             contact: personnelProfile.contact,
             platoon: personnelProfile.platoon,
             rank: personnelProfile.rank,
@@ -112,7 +114,6 @@ const ViewGuardDutyPage = () => {
       setLoading(false);
     })();
   }, [id]);
-  console.log(data);
   const renderContent = () => {
     if (loading) {
       return (
@@ -185,7 +186,13 @@ const ViewGuardDutyPage = () => {
             className="mt-4"
             columns={GUARD_DUTY_COLUMNS}
             data={data?.personnels || []}
+            meta={{
+              location: data.location,
+              date: data.date,
+              id
+            }}
             downloadable
+            copyable
             csvFileName={`charlie_guard_duty_on_${dayjs(data.date).format("DDMMYYYY")}_d_${dayjs().format("DDMMYYYY")}`}
           />
         </CardContent>

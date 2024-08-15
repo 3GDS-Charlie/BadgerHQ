@@ -6,10 +6,10 @@ import {
   useReactTable,
   getFilteredRowModel
 } from "@tanstack/react-table";
-import { parse, unparse } from "papaparse";
-
+import { unparse } from "papaparse";
+import dayjs from "dayjs";
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Copy, Download, Search } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -20,20 +20,34 @@ import {
 } from "@/components/shared/Table";
 import { Input } from "@/components/shared/Input";
 import { Button } from "../Button";
+import { calculateGDPoints, copyToClipboard } from "@/lib/utils";
+import { useToast } from "@/components/shared/Toast/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "@/components/shared/Tooltip";
 
 export function DataTable({
   className,
   columns,
   data,
   setData,
-  allPersonnels = [],
-  commanders = [],
-  troopers = [],
+  meta: {
+    allPersonnels = [],
+    commanders = [],
+    troopers = [],
+    location,
+    date,
+    id
+  },
   state,
   search = false,
   csvFileName = null,
-  downloadable = false
+  downloadable = false,
+  copyable = false
 }) {
+  const { toast } = useToast();
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
@@ -58,6 +72,32 @@ export function DataTable({
     downloadCSV(csvString);
   };
 
+  const generateClipboard = () => {
+    const formattedPersonnels = data
+      .map(
+        (onePersonnel) => `- ${onePersonnel.name} (${onePersonnel.appointment})`
+      )
+      .join("\n");
+
+    const clipboard = `
+    *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
+    *Location:* ${location}
+    *Potential Duty Points:* ${calculateGDPoints(date)}
+    *Personnels*\n${formattedPersonnels}
+    ---------------------------
+    id for nerds: \`${id}\`
+    ---------------------------
+    Powered by BadgerHQ.`;
+
+    copyToClipboard(clipboard);
+
+    toast({
+      title: "Success!",
+      description: "Copied to clipboard"
+    });
+
+    return clipboard;
+  };
   const table = useReactTable({
     data,
     columns,
@@ -123,11 +163,33 @@ export function DataTable({
         ) : (
           <span></span>
         )}
-        {downloadable && (
-          <Button disabled={data.length === 0} onClick={generateCSV}>
-            Download CSV
-          </Button>
-        )}
+        <span className="space-x-4">
+          {copyable && (
+            <Tooltip>
+              <TooltipTrigger className="text-left">
+                <Button
+                  variant="secondary"
+                  disabled={data.length === 0}
+                  onClick={generateClipboard}
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy as Text
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-sm">
+                  Copy to clipboard in whatsapp/tele friendly format
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+          {downloadable && (
+            <Button disabled={data.length === 0} onClick={generateCSV}>
+              <Download className="w-4 h-4 mr-2" />
+              Download CSV
+            </Button>
+          )}
+        </span>
       </span>
 
       <div className={`rounded-md border ${className}`}>

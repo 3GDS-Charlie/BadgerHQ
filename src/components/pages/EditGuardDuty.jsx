@@ -341,9 +341,7 @@ const EditGuardDutyPage = () => {
             columns={EDITABLE_GUARD_DUTY_COLUMNS}
             data={data?.personnels || []}
             setData={setData}
-            allPersonnels={allPersonnels}
-            commanders={commanders}
-            troopers={troopers}
+            meta={{ allPersonnels, commanders, troopers }}
             state={{
               columnVisibility: {
                 id: false

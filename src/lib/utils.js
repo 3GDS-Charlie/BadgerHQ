@@ -93,3 +93,7 @@ export const calculateGDPoints = (date, twoPoints = false) => {
   }
   return points;
 };
+
+export const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text);
+};
