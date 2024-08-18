@@ -8,6 +8,9 @@ import {
   TooltipContent,
   TooltipTrigger
 } from "@/components/shared/Tooltip";
+import Custom from "./Custom";
+import GDGenerated from "./GDGenerated";
+import { Separator } from "@/components/shared/Separator";
 
 const ManageDutyPoints = () => {
   const router = useRouter();
@@ -69,6 +72,11 @@ const ManageDutyPoints = () => {
           />
         </span>
       </span>
+      <div className="flex w-full mt-4 justify-between">
+        <Custom />
+        <Separator className="h-100" orientation="vertical" />
+        <GDGenerated />
+      </div>
     </div>
   );
 };

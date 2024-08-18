@@ -40,7 +40,7 @@ export function DataTable({
     location,
     date,
     id
-  },
+  } = {},
   state,
   search = false,
   csvFileName = null,

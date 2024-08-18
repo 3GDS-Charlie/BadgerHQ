@@ -511,6 +511,89 @@ export const NOMINAL_ROLL_COLUMNS = [
   }
 ];
 
+export const DUTY_POINTS_CUSTOM_NOMINAL_ROLL_COLUMNS = [
+  {
+    accessorKey: "id",
+    header: "id"
+  },
+  {
+    accessorKey: "rank",
+    header: ({ column }) => (
+      <span
+        className="flex cursor-pointer select-none hover:underline"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Rank
+        <ArrowUpDown className="ml-1 h-4 w-4" />
+      </span>
+    ),
+    cell: ({ row }) => {
+      const rank = row.getValue("rank");
+      if (!rank) {
+        return <p className="text-red-500">Empty</p>;
+      }
+      return <p>{rank}</p>;
+    }
+  },
+  {
+    accessorKey: "name",
+    header: "Name",
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      if (!name) {
+        return <p className="text-red-500">Empty</p>;
+      }
+      const id = row.getValue("id");
+      return <Link href={`/dashboard/viewProfile/${id}`}>{name}</Link>;
+    }
+  },
+  {
+    accessorKey: "platoon",
+    header: ({ column }) => (
+      <span
+        className="flex cursor-pointer select-none hover:underline"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Platoon
+        <ArrowUpDown className="ml-1 h-4 w-4" />
+      </span>
+    ),
+    cell: ({ row }) => {
+      const platoon = row.getValue("platoon");
+      if (!platoon) {
+        return <p>Empty</p>;
+      }
+      return <p>{platoon}</p>;
+    }
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const payment = row.original;
+      const personnelId = row.getValue("id");
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem asChild>
+              <Link href={`/dashboard/profile/${personnelId}`}>View</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Add</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    }
+  }
+];
+
 export const GUARD_ROLES = {
   main: [
     "GUARD COMMANDER",
