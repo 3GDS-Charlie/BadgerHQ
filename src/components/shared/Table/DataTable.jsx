@@ -78,16 +78,19 @@ export function DataTable({
         (onePersonnel) => `- ${onePersonnel.name} (${onePersonnel.appointment})`
       )
       .join("\n");
-
     const clipboard = `
-    *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
-    *Location:* ${location}
-    *Potential Duty Points:* ${calculateGDPoints(date)}
-    *Personnels*\n${formattedPersonnels}
-    ---------------------------
-    id for nerds: \`${id}\`
-    ---------------------------
-    Powered by BadgerHQ.`;
+      *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
+      *Location:* ${location}
+      *Potential Duty Points:* ${calculateGDPoints(date)}
+      *Personnels*
+      ${formattedPersonnels}
+      ---------------------------
+      id for nerds: \`${id}\`
+      ---------------------------
+      Powered by BadgerHQ.`
+      .split("\n")
+      .map((line) => line.trim())
+      .join("\n");
 
     copyToClipboard(clipboard);
 

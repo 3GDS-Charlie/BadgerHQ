@@ -65,7 +65,6 @@ const GuardDuty = () => {
       setLoading(false);
     })();
   }, [month, year]);
-  console.log(year);
   return (
     <div className="flex flex-col mt-4">
       {/* TOP */}
