@@ -611,7 +611,7 @@ export const GUARD_ROLES = {
     "RESERVE GUARD COMMANDER",
     "RESERVE GUARD 1",
     "RESERVE GUARD 2",
-    "RESERVE GUARD 2"
+    "RESERVE GUARD 3"
   ]
 };
 
