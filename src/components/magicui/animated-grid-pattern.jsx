@@ -1,4 +1,5 @@
-"use client";;
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-restricted-syntax */
 import { useEffect, useId, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -25,7 +26,7 @@ export function GridPattern({
   function getPos() {
     return [
       Math.floor((Math.random() * dimensions.width) / width),
-      Math.floor((Math.random() * dimensions.height) / height),
+      Math.floor((Math.random() * dimensions.height) / height)
     ];
   }
 
@@ -33,7 +34,7 @@ export function GridPattern({
   function generateSquares(count) {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
-      pos: getPos(),
+      pos: getPos()
     }));
   }
 
@@ -44,9 +45,11 @@ export function GridPattern({
         sq.id === id
           ? {
               ...sq,
-              pos: getPos(),
+              pos: getPos()
             }
-          : sq));
+          : sq
+      )
+    );
   };
 
   // Update squares to animate in
@@ -59,10 +62,10 @@ export function GridPattern({
   // Resize observer to update container dimensions
   useEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
+      for (const entry of entries) {
         setDimensions({
           width: entry.contentRect.width,
-          height: entry.contentRect.height,
+          height: entry.contentRect.height
         });
       }
     });
@@ -79,14 +82,15 @@ export function GridPattern({
   }, [containerRef]);
 
   return (
-    (<svg
+    <svg
       ref={containerRef}
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute inset-0 h-full w-full fill-gray-400/30 stroke-gray-400/30",
         className
       )}
-      {...props}>
+      {...props}
+    >
       <defs>
         <pattern
           id={id}
@@ -94,11 +98,13 @@ export function GridPattern({
           height={height}
           patternUnits="userSpaceOnUse"
           x={x}
-          y={y}>
+          y={y}
+        >
           <path
             d={`M.5 ${height}V.5H${width}`}
             fill="none"
-            strokeDasharray={strokeDasharray} />
+            strokeDasharray={strokeDasharray}
+          />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill={`url(#${id})`} />
@@ -111,7 +117,7 @@ export function GridPattern({
               duration,
               repeat: 1,
               delay: index * 0.1,
-              repeatType: "reverse",
+              repeatType: "reverse"
             }}
             onAnimationComplete={() => updateSquarePosition(id)}
             key={`${x}-${y}-${index}`}
@@ -120,10 +126,11 @@ export function GridPattern({
             x={x * width + 1}
             y={y * height + 1}
             fill="currentColor"
-            strokeWidth="0" />
+            strokeWidth="0"
+          />
         ))}
       </svg>
-    </svg>)
+    </svg>
   );
 }
 
