@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2e3a5770-9f28-417b-a1bf-a11a407e35cf/deploy-status)](https://app.netlify.com/sites/badger-hq/deploys)
+
 # Badger HQ - Charlie Management Portal
 
 Welcome to **Badger HQ**, this mobile-friendly website allows commanders to seamlessly update parade state and enables PSes to plan guard duty arrangements efficiently.
