@@ -65,6 +65,42 @@ const GuardDuty = () => {
       setLoading(false);
     })();
   }, [month, year]);
+
+  const displayData = () => {
+    if (!data.length) return <p className="text-sm">No data.</p>;
+    return data.map((oneData, index) => (
+      <Card key={index}>
+        <CardContent className="flex items-center justify-between">
+          <span className="flex flex-col gap-2 mt-6">
+            <code className="font-mono text-gray-600 text-xs font-medium">
+              <b>Location:</b> {oneData?.location || "No Data"}
+            </code>
+            <code className="font-mono text-gray-600 text-xs font-medium">
+              <b>Date:</b>{" "}
+              {oneData?.date
+                ? dayjs(oneData.date).format("MMM DD, YYYY")
+                : "No Data"}
+            </code>
+            <code className="font-mono text-gray-600 text-xs font-medium">
+              <b>Status:</b>{" "}
+              {isDatePast(oneData.date) ? "Completed" : "Not completed"}
+            </code>
+            <code className="font-mono text-gray-600 text-xs font-medium">
+              <b>Personnel Count:</b> {oneData.personnelCount || "No Data"}
+            </code>
+          </span>
+          <Button
+            onClick={() =>
+              router.push(`/dashboard/viewGuardDuty/${oneData.id}`)
+            }
+          >
+            View more
+          </Button>
+        </CardContent>
+      </Card>
+    ));
+  };
+
   return (
     <div className="flex flex-col mt-4">
       {/* TOP */}
@@ -92,38 +128,7 @@ const GuardDuty = () => {
             <Loader2 className="h-6 w-6 animate-spin" />
           </span>
         ) : (
-          data.map((oneData, index) => (
-            <Card key={index}>
-              <CardContent className="flex items-center justify-between">
-                <span className="flex flex-col gap-2 mt-6">
-                  <code className="font-mono text-gray-600 text-xs font-medium">
-                    <b>Location:</b> {oneData?.location || "No Data"}
-                  </code>
-                  <code className="font-mono text-gray-600 text-xs font-medium">
-                    <b>Date:</b>{" "}
-                    {oneData?.date
-                      ? dayjs(oneData.date).format("MMM DD, YYYY")
-                      : "No Data"}
-                  </code>
-                  <code className="font-mono text-gray-600 text-xs font-medium">
-                    <b>Status:</b>{" "}
-                    {isDatePast(oneData.date) ? "Completed" : "Not completed"}
-                  </code>
-                  <code className="font-mono text-gray-600 text-xs font-medium">
-                    <b>Personnel Count:</b>{" "}
-                    {oneData.personnelCount || "No Data"}
-                  </code>
-                </span>
-                <Button
-                  onClick={() =>
-                    router.push(`/dashboard/viewGuardDuty/${oneData.id}`)
-                  }
-                >
-                  View more
-                </Button>
-              </CardContent>
-            </Card>
-          ))
+          displayData()
         )}
       </div>
     </div>

@@ -1,6 +1,7 @@
 /* eslint-disable no-restricted-globals */
 import React, { useContext, useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/router";
 import MainLayout from "@/components/layout/MainLayout";
 import AuthContext from "@/lib/context/AuthContext";
 import { Input } from "@/components/shared/Input";
@@ -24,6 +25,7 @@ const Me = () => {
   const [dutyPointsData, setDutyPointsData] = useState([]);
   const supabaseClient = createClient();
   const id = profile?.id;
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {

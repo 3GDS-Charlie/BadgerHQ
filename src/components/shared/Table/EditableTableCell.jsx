@@ -34,7 +34,7 @@ const EditableTableCell = ({ getValue, row, column, table }) => {
         <SelectItem value={null}>Empty</SelectItem>
         {selectList.map((onePersonnel, index) => (
           <SelectItem key={index} value={onePersonnel.id}>
-            {onePersonnel.rank} {onePersonnel.name}
+            {onePersonnel.rank} {onePersonnel.name} (PLT {onePersonnel.platoon})
           </SelectItem>
         ))}
       </SelectContent>
