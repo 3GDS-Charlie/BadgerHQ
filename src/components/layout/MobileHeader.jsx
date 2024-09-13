@@ -64,7 +64,10 @@ const MobileHeader = () => {
               <Button className="w-full mt-4" onClick={handleLogout}>
                 Logout
               </Button>
-              <div className="flex flex-col space-y-1 mt-4 text-center">
+              <Link
+                href="/me"
+                className="flex flex-col space-y-1 mt-4 text-center hover:underline hover:opacity-80"
+              >
                 <p className="text-xs font-medium leading-none text-gray-600">
                   {profile?.rank} {profile?.name}
                 </p>
@@ -73,7 +76,7 @@ const MobileHeader = () => {
                   {profile?.section && `Section ${profile.section}`}{" "}
                   {profile?.appointment}
                 </p>
-              </div>
+              </Link>
             </>
           ) : (
             <Button
