@@ -18,11 +18,31 @@ const GuardDuty = () => {
   const supabaseClient = createClient();
   const router = useRouter();
 
+  // Mapping month names to numeric values
+  const monthNameToNumber = {
+    january: "01",
+    february: "02",
+    march: "03",
+    april: "04",
+    may: "05",
+    june: "06",
+    july: "07",
+    august: "08",
+    september: "09",
+    october: "10",
+    november: "11",
+    december: "12"
+  };
+
   useEffect(() => {
     (async () => {
       if (year === "" || month === "") return;
       setLoading(true);
-      const startOfMonth = dayjs(`${year}-${month}`)
+
+      // Convert month name to two-digit month number
+      const numericMonth = monthNameToNumber[month.toLowerCase()];
+
+      const startOfMonth = dayjs(`${year}-${numericMonth}`)
         .startOf("month")
         .format("YYYY-MM-DD");
       const endOfMonth = dayjs(startOfMonth)
