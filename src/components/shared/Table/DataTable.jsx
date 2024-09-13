@@ -75,7 +75,8 @@ export function DataTable({
   const generateClipboard = () => {
     const formattedPersonnels = data
       .map(
-        (onePersonnel) => `- ${onePersonnel.name} (${onePersonnel.appointment})`
+        (onePersonnel) =>
+          `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment})`
       )
       .join("\n");
     const clipboard = `
