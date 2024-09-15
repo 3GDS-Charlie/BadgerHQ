@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Combobox } from "@/components/shared/Combobox";
 import { MONTHS, YEARS } from "@/lib/data";
 import { Card, CardContent } from "@/components/shared/Card";
-import { Button } from "@/components/shared/Button";
+import { buttonVariants } from "@/components/shared/Button";
 import { createClient } from "@/lib/supabase/component";
-import { isDatePast } from "@/lib/utils";
+import { cn, isDatePast } from "@/lib/utils";
 
 const GuardDuty = () => {
   const [data, setData] = useState([]);
@@ -90,8 +91,8 @@ const GuardDuty = () => {
     if (!data.length) return <p className="text-sm">No data.</p>;
     return data.map((oneData, index) => (
       <Card key={index}>
-        <CardContent className="flex items-center justify-between">
-          <span className="flex flex-col gap-2 mt-6">
+        <CardContent className="flex items-center justify-between pt-6">
+          <span className="flex flex-col gap-2">
             <code className="font-mono text-gray-600 text-xs font-medium">
               <b>Location:</b> {oneData?.location || "No Data"}
             </code>
@@ -109,13 +110,12 @@ const GuardDuty = () => {
               <b>Personnel Count:</b> {oneData.personnelCount || "No Data"}
             </code>
           </span>
-          <Button
-            onClick={() =>
-              router.push(`/dashboard/viewGuardDuty/${oneData.id}`)
-            }
+          <Link
+            className={cn(buttonVariants({ variant: "default" }))}
+            href={`/dashboard/viewGuardDuty/${oneData.id}`}
           >
             View more
-          </Button>
+          </Link>
         </CardContent>
       </Card>
     ));
