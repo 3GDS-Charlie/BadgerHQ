@@ -124,7 +124,7 @@ const GuardDuty = () => {
   return (
     <div className="flex flex-col mt-4">
       {/* TOP */}
-      <span className="flex justify-between space-x-4 items-center mb-4">
+      <span className="flex flex-col md:flex-row justify-between md:space-x-4 md:items-center mb-4">
         <h2 className="font-semibold text-lg mb-4">Guard Duty</h2>
         <span className="flex gap-x-4">
           <Combobox

@@ -151,7 +151,7 @@ export function DataTable({
 
   return (
     <>
-      <span className="flex justify-between items-center">
+      <span className="flex justify-between items-center sm:mt-0 mt-4">
         {search ? (
           <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -167,7 +167,7 @@ export function DataTable({
         ) : (
           <span></span>
         )}
-        <span className="space-x-4">
+        <span className="sm:space-x-4">
           {copyable && (
             <Tooltip>
               <TooltipTrigger className="text-left" asChild>

@@ -25,7 +25,7 @@ const DashboardPage = () => {
       <div className="m-auto h-full w-full max-w-screen-xl px-6 sm:px-16 mb-16">
         <h1 className="font-bold text-2xl">Dashboard</h1>
         <Tabs value={currentTab || "overview"} className="mt-4">
-          <TabsList>
+          <TabsList className="overflow-x-auto">
             <TabsTrigger
               onClick={() =>
                 router.replace({
