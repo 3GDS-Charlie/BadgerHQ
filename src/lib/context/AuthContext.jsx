@@ -10,6 +10,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // supabase auth table
   const [profile, setProfile] = useState(null); // supabase profiles table
+  const [loading, setLoading] = useState(false);
   const supabaseClient = createClient();
 
   const fetchProfile = async (currUser) => {
@@ -30,7 +31,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
       await fetchProfile(user);
+      setLoading(false);
     })();
   }, [user]);
 
@@ -64,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, profile }}>
+    <AuthContext.Provider value={{ user, profile, loading }}>
       {children}
     </AuthContext.Provider>
   );

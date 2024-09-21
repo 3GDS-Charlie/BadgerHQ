@@ -638,4 +638,4 @@ export const COMMANDER_RANK = [
   "MG",
   "LG"
 ];
-export const TROOPER_RANK = ["PFC", "LCP", "CPL", "CFC"];
+export const TROOPER_RANK = ["PFC", "PTE", "LCP", "CPL", "CFC"];

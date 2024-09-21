@@ -53,8 +53,8 @@ const GuardDuty = () => {
       const { data: guardDutyDates, error: error1 } = await supabaseClient
         .from("guard_duty_dates")
         .select()
-        .gte("created_at", startOfMonth)
-        .lt("created_at", endOfMonth);
+        .gte("date", startOfMonth)
+        .lt("date", endOfMonth);
 
       if (error1) {
         console.error(error1);

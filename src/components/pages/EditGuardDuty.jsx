@@ -179,6 +179,7 @@ const EditGuardDutyPage = () => {
         // Records to be updated
         if (existingPersonnel) {
           if (
+            onePersonnel.id !== "" &&
             onePersonnel.id !== null &&
             existingPersonnel.fk_user_id !== onePersonnel.id
           ) {
@@ -187,7 +188,7 @@ const EditGuardDutyPage = () => {
               fk_user_id: onePersonnel.id
             });
           }
-        } else if (onePersonnel.id !== null) {
+        } else if (onePersonnel.id !== "" && onePersonnel.id !== null) {
           // New records to be inserted
           personnelToBeInserted.push({
             fk_user_id: onePersonnel.id,
@@ -196,13 +197,19 @@ const EditGuardDutyPage = () => {
           });
         }
 
-        if (onePersonnel.id === null && existingPersonnel) {
+        if (
+          (onePersonnel.id === "" || onePersonnel.id === null) &&
+          existingPersonnel
+        ) {
           personnelToBeDeleted.push({
             id: existingPersonnel.id // refers to gd_personnel table id
           });
         }
       })
     );
+    console.log(personnelToBeUpdated);
+    console.log(personnelToBeInserted);
+    console.log(personnelToBeDeleted);
     // Insert new personnel
     if (personnelToBeInserted.length > 0) {
       const { data: insertData, error: insertError } = await supabaseClient

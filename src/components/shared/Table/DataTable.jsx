@@ -170,7 +170,7 @@ export function DataTable({
         <span className="space-x-4">
           {copyable && (
             <Tooltip>
-              <TooltipTrigger className="text-left">
+              <TooltipTrigger className="text-left" asChild>
                 <Button
                   variant="secondary"
                   disabled={data.length === 0}

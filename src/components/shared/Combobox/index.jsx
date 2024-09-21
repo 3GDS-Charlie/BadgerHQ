@@ -17,17 +17,24 @@ import {
   PopoverTrigger
 } from "@/components/shared/Popover";
 
-export function Combobox({ defaultValue, value, setValue, data, placeholder }) {
+export function Combobox({
+  defaultValue,
+  value,
+  setValue,
+  data,
+  placeholder,
+  className
+}) {
   const [open, setOpen] = useState(false);
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} className={className}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={`w-[200px] justify-between ${className}`}
         >
           {value
             ? data.find((oneData) => oneData.value === value)?.label
@@ -35,7 +42,7 @@ export function Combobox({ defaultValue, value, setValue, data, placeholder }) {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className={`w-[200px] p-0 ${className}`}>
         <Command>
           <CommandInput placeholder={placeholder || "Search..."} />
           <CommandEmpty>No option found.</CommandEmpty>

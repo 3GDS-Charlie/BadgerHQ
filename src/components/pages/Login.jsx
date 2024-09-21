@@ -4,6 +4,7 @@ import Image from "next/image";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext, useState } from "react";
+import { Loader2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -27,7 +28,7 @@ const loginFormSchema = z.object({
 const LoginPage = () => {
   const { toast } = useToast();
   const supabaseClient = createClient();
-  const { user } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const loginForm = useForm({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -71,7 +72,17 @@ const LoginPage = () => {
     });
   };
 
-  if (user) {
+  if (loading) {
+    return (
+      <MainLayout title="Login" className="flex justify-center items-center">
+        <span className="w-full h-full flex justify-center items-center">
+          <Loader2 className="h-6 w-6 animate-spin" />
+        </span>
+      </MainLayout>
+    );
+  }
+
+  if (user && !loading) {
     return (
       <MainLayout title="Login" className="flex justify-center items-center">
         <p className="font-semibold text-md">You are already logged in!</p>
