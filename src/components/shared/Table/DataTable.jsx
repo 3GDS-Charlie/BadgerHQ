@@ -151,9 +151,9 @@ export function DataTable({
 
   return (
     <>
-      <span className="flex justify-between items-center sm:mt-0 mt-4">
+      <span className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
         {search ? (
-          <div className="relative flex-1">
+          <div className="relative flex-1 mt-0 sm:mt-4">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by name..."
@@ -170,7 +170,7 @@ export function DataTable({
         <span className="sm:space-x-4">
           {copyable && (
             <Tooltip>
-              <TooltipTrigger className="text-left" asChild>
+              <TooltipTrigger className="text-left mt-4 sm:mt-0" asChild>
                 <Button
                   variant="secondary"
                   disabled={data.length === 0}
@@ -188,7 +188,11 @@ export function DataTable({
             </Tooltip>
           )}
           {downloadable && (
-            <Button disabled={data.length === 0} onClick={generateCSV}>
+            <Button
+              className="mt-4 sm:mt-0"
+              disabled={data.length === 0}
+              onClick={generateCSV}
+            >
               <Download className="w-4 h-4 mr-2" />
               Download CSV
             </Button>
