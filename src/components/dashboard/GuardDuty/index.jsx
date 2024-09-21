@@ -1,15 +1,21 @@
 /* eslint-disable consistent-return */
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { Loader2 } from "lucide-react";
+import { Copy, Loader2 } from "lucide-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Combobox } from "@/components/shared/Combobox";
-import { MONTHS, YEARS } from "@/lib/data";
+import { CLIPBOARD_TEMPLATE_GD_SINGLE, MONTHS, YEARS } from "@/lib/data";
 import { Card, CardContent } from "@/components/shared/Card";
-import { buttonVariants } from "@/components/shared/Button";
+import { Button, buttonVariants } from "@/components/shared/Button";
 import { createClient } from "@/lib/supabase/component";
-import { cn, isDatePast } from "@/lib/utils";
+import { cn, copyToClipboard, isDatePast } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "@/components/shared/Tooltip";
+import { useToast } from "@/components/shared/Toast/use-toast";
 
 const GuardDuty = () => {
   const [data, setData] = useState([]);
@@ -18,6 +24,7 @@ const GuardDuty = () => {
   const [year, setYear] = useState(dayjs().year().toString());
   const supabaseClient = createClient();
   const router = useRouter();
+  const { toast } = useToast();
 
   // Mapping month names to numeric values
   const monthNameToNumber = {
@@ -33,6 +40,45 @@ const GuardDuty = () => {
     october: "10",
     november: "11",
     december: "12"
+  };
+
+  const generateClipboard = () => {
+    console.log(data);
+    const clipboard = `
+      *${dayjs().format("MMM").toUpperCase()} Guard Duties*
+      ---------------------------
+      ${
+        data.length > 0
+          ? data.map((oneGD) => {
+              console.log(oneGD);
+              const formattedPersonnels = oneGD.personnelInfo
+                .map(
+                  (onePersonnel) =>
+                    `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment})`
+                )
+                .join("\n");
+              return CLIPBOARD_TEMPLATE_GD_SINGLE(
+                oneGD.date,
+                oneGD.location,
+                formattedPersonnels,
+                oneGD.id
+              );
+            })
+          : `No guard duty for this month.`
+      }
+    `
+      .split("\n")
+      .map((line) => line.trim())
+      .join("\n");
+
+    copyToClipboard(clipboard);
+
+    toast({
+      title: "Success!",
+      description: "Copied to clipboard"
+    });
+
+    return clipboard;
   };
 
   useEffect(() => {
@@ -73,12 +119,49 @@ const GuardDuty = () => {
             console.error(error2);
             return;
           }
+
+          const personnelInfo = await Promise.all(
+            guardDutyPersonnel.map(async (oneGDPersonnel) => {
+              const { data: personnelProfile, error: error3 } =
+                await supabaseClient
+                  .from("profiles")
+                  .select()
+                  .eq("id", oneGDPersonnel.fk_user_id)
+                  .single();
+              if (error3) {
+                console.error(error3);
+                setError(true);
+                return {
+                  id: null,
+                  contact: null,
+                  platoon: null,
+                  rank: null,
+                  name: null,
+                  dutyPoints: null,
+                  signExtra: null,
+                  appointment: oneGDPersonnel.appointment
+                };
+              }
+              return {
+                id: personnelProfile.id,
+                contact: personnelProfile.contact,
+                platoon: personnelProfile.platoon,
+                rank: personnelProfile.rank,
+                name: personnelProfile.name,
+                dutyPoints: personnelProfile.duty_points,
+                signExtra: oneGDPersonnel.sign_extra,
+                appointment: oneGDPersonnel.appointment
+              };
+            })
+          );
+
           const personnelCount = guardDutyPersonnel.length;
           return {
             id: oneGuardDutyDate.id,
             location: oneGuardDutyDate.location,
             date: oneGuardDutyDate.date,
-            personnelCount
+            personnelCount,
+            personnelInfo
           };
         })
       );
@@ -124,22 +207,42 @@ const GuardDuty = () => {
   return (
     <div className="flex flex-col mt-4">
       {/* TOP */}
-      <span className="flex flex-col md:flex-row justify-between md:space-x-4 md:items-center mb-4">
-        <h2 className="font-semibold text-lg mb-4">Guard Duty</h2>
-        <span className="flex gap-x-4">
-          <Combobox
-            value={year}
-            setValue={setYear}
-            data={YEARS}
-            placeholder="Search year"
-          />
-          <Combobox
-            value={month}
-            setValue={setMonth}
-            data={MONTHS}
-            placeholder="Search month"
-          />
+      <span className="flex flex-col md:flex-row justify-between md:space-x-4 mb-4">
+        <span className="flex flex-col">
+          <h2 className="font-semibold text-lg mb-4">Guard Duty</h2>
+          <span className="flex gap-x-4">
+            <Combobox
+              value={year}
+              setValue={setYear}
+              data={YEARS}
+              placeholder="Search year"
+            />
+            <Combobox
+              value={month}
+              setValue={setMonth}
+              data={MONTHS}
+              placeholder="Search month"
+            />
+          </span>
         </span>
+        <Tooltip>
+          <TooltipTrigger className="text-left mt-4 sm:mt-0" asChild>
+            <Button
+              variant="secondary"
+              disabled={data.length === 0}
+              onClick={generateClipboard}
+              className="w-fit"
+            >
+              <Copy className="w-4 h-4 mr-2" />
+              Copy as Text
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p className="text-sm">
+              Copy to clipboard in whatsapp/tele friendly format
+            </p>
+          </TooltipContent>
+        </Tooltip>
       </span>
       {/* LIST */}
       <div className="flex flex-col gap-y-4">

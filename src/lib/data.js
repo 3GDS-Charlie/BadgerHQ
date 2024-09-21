@@ -17,6 +17,27 @@ import {
   TooltipContent,
   TooltipTrigger
 } from "@/components/shared/Tooltip";
+import { calculateGDPoints } from "@/lib/utils";
+
+export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
+  date,
+  location,
+  formattedPersonnels,
+  id
+) =>
+  `
+      *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
+      *Location:* ${location}
+      *Potential Duty Points:* ${calculateGDPoints(date)}
+      *Personnels*
+      ${formattedPersonnels}
+      ---------------------------
+      id for nerds: \`${id}\`
+      ---------------------------
+      Powered by BadgerHQ.`
+    .split("\n")
+    .map((line) => line.trim())
+    .join("\n");
 
 export const MONTHS = [
   {

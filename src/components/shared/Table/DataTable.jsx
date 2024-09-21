@@ -20,13 +20,14 @@ import {
 } from "@/components/shared/Table";
 import { Input } from "@/components/shared/Input";
 import { Button } from "../Button";
-import { calculateGDPoints, copyToClipboard } from "@/lib/utils";
+import { copyToClipboard } from "@/lib/utils";
 import { useToast } from "@/components/shared/Toast/use-toast";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from "@/components/shared/Tooltip";
+import { CLIPBOARD_TEMPLATE_GD_SINGLE } from "@/lib/data";
 
 export function DataTable({
   className,
@@ -79,21 +80,9 @@ export function DataTable({
           `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment})`
       )
       .join("\n");
-    const clipboard = `
-      *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
-      *Location:* ${location}
-      *Potential Duty Points:* ${calculateGDPoints(date)}
-      *Personnels*
-      ${formattedPersonnels}
-      ---------------------------
-      id for nerds: \`${id}\`
-      ---------------------------
-      Powered by BadgerHQ.`
-      .split("\n")
-      .map((line) => line.trim())
-      .join("\n");
-
-    copyToClipboard(clipboard);
+    copyToClipboard(
+      CLIPBOARD_TEMPLATE_GD_SINGLE(date, location, formattedPersonnels, id)
+    );
 
     toast({
       title: "Success!",
