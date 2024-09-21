@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -26,6 +26,16 @@ export function Combobox({
   className
 }) {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState(""); // Track search input
+  const filteredData = data.filter((oneData) =>
+    oneData.label.toLowerCase().includes(search.toLowerCase())
+  );
+
+  useEffect(() => {
+    if (!open) {
+      setSearch("");
+    }
+  }, [open]);
 
   return (
     <Popover open={open} onOpenChange={setOpen} className={className}>
@@ -43,12 +53,15 @@ export function Combobox({
         </Button>
       </PopoverTrigger>
       <PopoverContent className={`w-[200px] p-0 ${className}`}>
-        <Command>
-          <CommandInput placeholder={placeholder || "Search..."} />
+        <Command shouldFilter={false}>
+          <CommandInput
+            placeholder={placeholder || "Search..."}
+            onValueChange={(val) => setSearch(val)}
+          />
           <CommandEmpty>No option found.</CommandEmpty>
           <CommandList>
             <CommandGroup>
-              {data.map((oneData) => (
+              {filteredData.map((oneData) => (
                 <CommandItem
                   key={oneData.value}
                   value={oneData.value}

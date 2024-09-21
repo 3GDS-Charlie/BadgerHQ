@@ -207,9 +207,6 @@ const EditGuardDutyPage = () => {
         }
       })
     );
-    console.log(personnelToBeUpdated);
-    console.log(personnelToBeInserted);
-    console.log(personnelToBeDeleted);
     // Insert new personnel
     if (personnelToBeInserted.length > 0) {
       const { data: insertData, error: insertError } = await supabaseClient

@@ -97,3 +97,10 @@ export const calculateGDPoints = (date, twoPoints = false) => {
 export const copyToClipboard = (text) => {
   navigator.clipboard.writeText(text);
 };
+
+// [{ key: "", value: "" }] -> { [key]: [value] }
+export const makeDictionary = (arr) =>
+  arr.reduce((acc, curr) => {
+    acc[curr.label] = curr.value;
+    return acc;
+  }, {});
