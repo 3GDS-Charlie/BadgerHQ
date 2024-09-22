@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable consistent-return */
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import { Loader2 } from "lucide-react";
@@ -9,6 +9,7 @@ import Image from "next/image";
 import { DataTable } from "@/components/shared/Table/DataTable";
 import {
   COMMANDER_RANK,
+  CORE_GROUP_EMAILS,
   EDITABLE_GUARD_DUTY_COLUMNS,
   TROOPER_RANK
 } from "@/lib/data";
@@ -31,6 +32,7 @@ import {
   BreadcrumbSeparator
 } from "@/components/shared/Breadcrumb";
 import { ToastAction } from "../shared/Toast";
+import AuthContext from "@/lib/context/AuthContext";
 
 const EditGuardDutyPage = () => {
   const router = useRouter();
@@ -43,6 +45,7 @@ const EditGuardDutyPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const supabaseClient = createClient();
+  const { profile } = useContext(AuthContext);
 
   useEffect(() => {
     (async () => {
@@ -291,6 +294,26 @@ const EditGuardDutyPage = () => {
           <p className="font-semibold text-primary">Error</p>
           <h1 className="text-4xl mt-2 font-semibold text-slate-900">
             Something went wrong
+          </h1>
+          <p className="text-md mt-2 text-slate-600">
+            Sorry, the page cannot be found.
+          </p>
+          <Button
+            className="mt-4 w-fit"
+            onClick={() => router.push("/dashboard")}
+          >
+            Take me to Dashboard
+          </Button>
+        </div>
+      );
+    }
+
+    if (!profile || !CORE_GROUP_EMAILS.includes(profile.email)) {
+      return (
+        <div className="flex w-full flex-col justify-center">
+          <p className="font-semibold text-primary">Error</p>
+          <h1 className="text-4xl mt-2 font-semibold text-slate-900">
+            Not authorised
           </h1>
           <p className="text-md mt-2 text-slate-600">
             Sorry, the page cannot be found.

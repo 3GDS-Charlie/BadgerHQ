@@ -19,6 +19,25 @@ import {
 } from "@/components/shared/Tooltip";
 import { calculateGDPoints } from "@/lib/utils";
 
+export const CORE_GROUP_EMAILS = [
+  "thamkeilok@charlie.com",
+  "gregnscsm@charlie.com",
+  "serkaile@charlie.com",
+  "seetohrongjin@charlie.com",
+  "chiakoksiong@charlie.com",
+  "limyongkang@charlie.com",
+  "zanecheeyongwei@charlie.com",
+  "gaoshan@charlie.com",
+  "ethanchanjunxuan@charlie.com",
+  "tayyihaojeremiah@charlie.com",
+  "ongsengmingdaemon@charlie.com",
+  "alexanderjamesloy@charlie.com",
+  "gaoshan@charlie.com",
+  "gaoshan@charlie.com",
+  "gaoshan@charlie.com",
+  "gaoshan@charlie.com"
+];
+
 export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
   date,
   location,

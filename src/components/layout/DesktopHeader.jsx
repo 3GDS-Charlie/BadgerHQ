@@ -29,8 +29,8 @@ const DesktopHeader = () => {
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
-    console.log(error);
     if (error) {
+      console.log(error);
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong.",

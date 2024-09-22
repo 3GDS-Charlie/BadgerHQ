@@ -90,6 +90,9 @@ const LoginPage = () => {
     );
   }
 
+  // this is needed to tell form to update the isValid for some reason
+  const placeholder = loginForm.formState.isValid;
+
   return (
     <MainLayout title="Login - Badger HQ">
       <div className="smh-container flex justify-center px-6 lg:px-24 py-16">

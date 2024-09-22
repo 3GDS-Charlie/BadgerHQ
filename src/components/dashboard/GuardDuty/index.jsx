@@ -167,6 +167,7 @@ const GuardDuty = () => {
             location: oneGuardDutyDate.location,
             date: oneGuardDutyDate.date,
             personnelCount,
+            chatLink: oneGuardDutyDate.group_chat_link,
             personnels: completePersonnels
           };
         })
@@ -197,6 +198,19 @@ const GuardDuty = () => {
             </code>
             <code className="font-mono text-gray-600 text-xs font-medium">
               <b>Personnel Count:</b> {oneData.personnelCount || "No Data"}
+            </code>
+            <code className="font-mono text-gray-600 text-xs font-medium">
+              <b>Chat link:</b>{" "}
+              {oneData?.chatLink ? (
+                <Link
+                  className="text-sky-500 font-medium hover:opacity-60 underline"
+                  href={oneData?.chatLink}
+                >
+                  {oneData.chatLink}
+                </Link>
+              ) : (
+                "Not available"
+              )}
             </code>
           </span>
           <Link
