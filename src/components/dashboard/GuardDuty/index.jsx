@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { Copy, Loader2 } from "lucide-react";
-import { useRouter } from "next/router";
 import Link from "next/link";
 import { Combobox } from "@/components/shared/Combobox";
 import { CLIPBOARD_TEMPLATE_GD_SINGLE, MONTHS, YEARS } from "@/lib/data";
@@ -28,7 +27,6 @@ const GuardDuty = () => {
   const [loading, setLoading] = useState(true);
   const [year, setYear] = useState(dayjs().year().toString());
   const supabaseClient = createClient();
-  const router = useRouter();
   const { toast } = useToast();
 
   // Mapping month names to numeric values
@@ -48,15 +46,13 @@ const GuardDuty = () => {
   };
 
   const generateClipboard = () => {
-    console.log(data);
     const clipboard = `
       *${dayjs().format("MMM").toUpperCase()} Guard Duties*
       ---------------------------
       ${
         data.length > 0
           ? data.map((oneGD) => {
-              console.log(oneGD);
-              const formattedPersonnels = oneGD.personnelInfo
+              const formattedPersonnels = oneGD?.personnels
                 .map((onePersonnel) =>
                   !onePersonnel.name
                     ? `- EMPTY (${onePersonnel.appointment})`
@@ -169,7 +165,7 @@ const GuardDuty = () => {
             location: oneGuardDutyDate.location,
             date: oneGuardDutyDate.date,
             personnelCount,
-            completePersonnels
+            personnels: completePersonnels
           };
         })
       );
