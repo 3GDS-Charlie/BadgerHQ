@@ -346,6 +346,7 @@ export const GUARD_DUTY_COLUMNS = [
   },
   {
     accessorKey: "signExtra",
+    headerForExport: "Sign extra?",
     header: () => (
       <Tooltip>
         <TooltipTrigger className="flex cursor-pointer items-center select-none hover:underline">
@@ -379,6 +380,7 @@ export const NOMINAL_ROLL_COLUMNS = [
   },
   {
     accessorKey: "rank",
+    headerForExport: "Rank",
     header: ({ column }) => (
       <span
         className="flex cursor-pointer select-none hover:underline"
@@ -410,6 +412,7 @@ export const NOMINAL_ROLL_COLUMNS = [
   },
   {
     accessorKey: "platoon",
+    headerForExport: "Platoon",
     header: ({ column }) => (
       <span
         className="flex cursor-pointer select-none hover:underline"
@@ -425,6 +428,17 @@ export const NOMINAL_ROLL_COLUMNS = [
         return <p>Empty</p>;
       }
       return <p>{platoon}</p>;
+    }
+  },
+  {
+    accessorKey: "section",
+    header: "Section",
+    cell: ({ row }) => {
+      const section = row.getValue("section");
+      if (!section) {
+        return <p>Empty</p>;
+      }
+      return <p>{section}</p>;
     }
   },
   {
