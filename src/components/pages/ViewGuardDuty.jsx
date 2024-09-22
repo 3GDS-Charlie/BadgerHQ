@@ -226,7 +226,7 @@ const ViewGuardDutyPage = () => {
     return (
       <Card>
         <CardContent>
-          <div className="flex justify-between mt-4">
+          <div className="flex flex-col md:flex-row justify-between mt-4">
             <span className="flex flex-col gap-2">
               <code className="font-mono text-gray-600 text-xs font-medium">
                 <b>Location:</b> {data?.location || "No Data"}
@@ -258,7 +258,7 @@ const ViewGuardDutyPage = () => {
                 <b>Chat link:</b>{" "}
                 {data?.chatLink ? (
                   <Link
-                    className="text-sky-500 font-medium hover:opacity-60 underline"
+                    className="text-sky-500 font-medium hover:opacity-60 underline break-all"
                     href={data?.chatLink}
                   >
                     {data.chatLink}
@@ -268,10 +268,10 @@ const ViewGuardDutyPage = () => {
                 )}
               </code>
             </span>
-            <span className="flex flex-col items-end">
+            <span className="flex flex-col md:items-end mt-4 md:mt-0">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="secondary">
+                  <Button className="w-fit" variant="secondary">
                     <LinkIcon className="w-4 h-4 mr-2" />
                     Update Link
                   </Button>

@@ -184,7 +184,7 @@ const GuardDuty = () => {
     if (!data.length) return <p className="text-sm">No data.</p>;
     return data.map((oneData, index) => (
       <Card key={index}>
-        <CardContent className="flex items-center justify-between pt-6">
+        <CardContent className="flex flex-col md:flex-row items-center justify-between pt-6">
           <span className="flex flex-col gap-2">
             <code className="font-mono text-gray-600 text-xs font-medium">
               <b>Location:</b> {oneData?.location || "No Data"}
@@ -206,7 +206,7 @@ const GuardDuty = () => {
               <b>Chat link:</b>{" "}
               {oneData?.chatLink ? (
                 <Link
-                  className="text-sky-500 font-medium hover:opacity-60 underline"
+                  className="text-sky-500 font-medium hover:opacity-60 underline break-all"
                   href={oneData?.chatLink}
                 >
                   {oneData.chatLink}
@@ -217,7 +217,10 @@ const GuardDuty = () => {
             </code>
           </span>
           <Link
-            className={cn(buttonVariants({ variant: "default" }))}
+            className={cn(
+              buttonVariants({ variant: "default" }),
+              "md:mt-0 mt-4"
+            )}
             href={`/dashboard/viewGuardDuty/${oneData.id}`}
           >
             View more
