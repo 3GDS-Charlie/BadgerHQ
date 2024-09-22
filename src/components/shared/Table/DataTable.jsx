@@ -40,7 +40,8 @@ export function DataTable({
     troopers = [],
     location,
     date,
-    id
+    id,
+    chatLink
   } = {},
   state,
   search = false,
@@ -81,8 +82,14 @@ export function DataTable({
           : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
       )
       .join("\n");
-    copyToClipboard(
-      CLIPBOARD_TEMPLATE_GD_SINGLE(date, location, formattedPersonnels, id)
+    const clipboard = copyToClipboard(
+      CLIPBOARD_TEMPLATE_GD_SINGLE(
+        date,
+        location,
+        chatLink,
+        formattedPersonnels,
+        id
+      )
     );
 
     toast({
@@ -90,7 +97,7 @@ export function DataTable({
       description: "Copied to clipboard"
     });
 
-    return clipboard;
+    return true;
   };
   const table = useReactTable({
     data,

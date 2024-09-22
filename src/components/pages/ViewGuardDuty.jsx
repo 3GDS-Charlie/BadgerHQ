@@ -338,7 +338,8 @@ const ViewGuardDutyPage = () => {
             meta={{
               location: data.location,
               date: data.date,
-              id
+              id,
+              chatLink: data.chatLink
             }}
             downloadable
             copyable

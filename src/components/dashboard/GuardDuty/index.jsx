@@ -62,6 +62,7 @@ const GuardDuty = () => {
               return CLIPBOARD_TEMPLATE_GD_SINGLE(
                 oneGD.date,
                 oneGD.location,
+                oneGD.chatLink,
                 formattedPersonnels,
                 oneGD.id,
                 false // include tagline

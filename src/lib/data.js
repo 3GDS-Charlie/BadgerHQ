@@ -41,6 +41,7 @@ export const CORE_GROUP_EMAILS = [
 export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
   date,
   location,
+  chatLink,
   formattedPersonnels,
   id,
   includeTagline = true
@@ -49,6 +50,7 @@ export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
       *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
       *Location:* ${location}
       *Potential Duty Points:* ${calculateGDPoints(date)}
+      *Whatsapp Chat Link:* ${chatLink || "Nil"}
       *Personnels*
       ${formattedPersonnels}
       ---------------------------
