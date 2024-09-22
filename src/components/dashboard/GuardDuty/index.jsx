@@ -51,23 +51,25 @@ const GuardDuty = () => {
       ---------------------------
       ${
         data.length > 0
-          ? data.map((oneGD) => {
-              const formattedPersonnels = oneGD?.personnels
-                .map((onePersonnel) =>
-                  !onePersonnel.name
-                    ? `- EMPTY (${onePersonnel.appointment})`
-                    : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
-                )
-                .join("\n");
-              return CLIPBOARD_TEMPLATE_GD_SINGLE(
-                oneGD.date,
-                oneGD.location,
-                oneGD.chatLink,
-                formattedPersonnels,
-                oneGD.id,
-                false // include tagline
-              );
-            })
+          ? data
+              .map((oneGD) => {
+                const formattedPersonnels = oneGD?.personnels
+                  .map((onePersonnel) =>
+                    !onePersonnel.name
+                      ? `- EMPTY (${onePersonnel.appointment})`
+                      : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
+                  )
+                  .join("\n");
+                return CLIPBOARD_TEMPLATE_GD_SINGLE(
+                  oneGD.date,
+                  oneGD.location,
+                  oneGD.chatLink,
+                  formattedPersonnels,
+                  oneGD.id,
+                  false // include tagline
+                );
+              })
+              .join("\n")
           : `No guard duty for this month.`
       }
       Powered by Badger HQ

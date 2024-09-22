@@ -51,12 +51,12 @@ export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
       *Location:* ${location}
       *Potential Duty Points:* ${calculateGDPoints(date)}
       *Whatsapp Chat Link:* ${chatLink || "Nil"}
-      *Personnels*
+      *Personnel*
       ${formattedPersonnels}
       ---------------------------
       id for nerds: \`${id}\`
       ---------------------------
-      ${includeTagline ? "Powered by BadgerHQ." : ""}`
+      ${includeTagline ? "Powered by BadgerHQ." : "|"}`
     .split("\n")
     .map((line) => line.trim())
     .join("\n");
