@@ -6,7 +6,7 @@ import { z } from "zod";
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import dayjs from "dayjs";
-import { Loader2 } from "lucide-react";
+import { Link as LinkIcon, Loader2, Pencil } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { DataTable } from "@/components/shared/Table/DataTable";
@@ -271,7 +271,10 @@ const ViewGuardDutyPage = () => {
             <span className="flex flex-col items-end">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="secondary">Update Link</Button>
+                  <Button variant="secondary">
+                    <LinkIcon className="w-4 h-4 mr-2" />
+                    Update Link
+                  </Button>
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
@@ -325,6 +328,7 @@ const ViewGuardDutyPage = () => {
                   onClick={() => router.push(`/dashboard/editGuardDuty/${id}`)}
                   className="mt-2 w-fit"
                 >
+                  <Pencil className="w-4 h-4 mr-2" />
                   Edit
                 </Button>
               )}
