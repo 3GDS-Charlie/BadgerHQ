@@ -56,7 +56,7 @@ export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
       ---------------------------
       id for nerds: \`${id}\`
       ---------------------------
-      ${includeTagline && "Powered by BadgerHQ."}`
+      ${includeTagline ? "Powered by BadgerHQ." : ""}`
     .split("\n")
     .map((line) => line.trim())
     .join("\n");
