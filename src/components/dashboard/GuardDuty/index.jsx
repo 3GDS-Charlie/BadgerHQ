@@ -9,7 +9,12 @@ import { CLIPBOARD_TEMPLATE_GD_SINGLE, MONTHS, YEARS } from "@/lib/data";
 import { Card, CardContent } from "@/components/shared/Card";
 import { Button, buttonVariants } from "@/components/shared/Button";
 import { createClient } from "@/lib/supabase/component";
-import { cn, copyToClipboard, isDatePast } from "@/lib/utils";
+import {
+  cn,
+  copyToClipboard,
+  fillMissingAppointment,
+  isDatePast
+} from "@/lib/utils";
 import {
   Tooltip,
   TooltipContent,
@@ -52,9 +57,10 @@ const GuardDuty = () => {
           ? data.map((oneGD) => {
               console.log(oneGD);
               const formattedPersonnels = oneGD.personnelInfo
-                .map(
-                  (onePersonnel) =>
-                    `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment})`
+                .map((onePersonnel) =>
+                  !onePersonnel.name
+                    ? `- EMPTY (${onePersonnel.appointment})`
+                    : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
                 )
                 .join("\n");
               return CLIPBOARD_TEMPLATE_GD_SINGLE(
@@ -155,13 +161,15 @@ const GuardDuty = () => {
             })
           );
 
+          const completePersonnels = fillMissingAppointment(personnelInfo);
+
           const personnelCount = guardDutyPersonnel.length;
           return {
             id: oneGuardDutyDate.id,
             location: oneGuardDutyDate.location,
             date: oneGuardDutyDate.date,
             personnelCount,
-            personnelInfo
+            completePersonnels
           };
         })
       );

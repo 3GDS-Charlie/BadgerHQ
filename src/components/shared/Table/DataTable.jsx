@@ -75,9 +75,10 @@ export function DataTable({
 
   const generateClipboard = () => {
     const formattedPersonnels = data
-      .map(
-        (onePersonnel) =>
-          `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment})`
+      .map((onePersonnel) =>
+        !onePersonnel.name
+          ? `- EMPTY (${onePersonnel.appointment})`
+          : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
       )
       .join("\n");
     copyToClipboard(
