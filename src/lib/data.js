@@ -466,6 +466,7 @@ export const NOMINAL_ROLL_COLUMNS = [
   },
   {
     accessorKey: "dutyPoints",
+    headerForExport: "Duty points",
     header: ({ column }) => (
       <span
         className="flex items-center cursor-pointer select-none hover:underline"

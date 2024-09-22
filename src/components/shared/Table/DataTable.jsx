@@ -67,7 +67,11 @@ export function DataTable({
 
   const generateCSV = () => {
     const headers = JSON.parse(
-      JSON.stringify(columns.map((col) => col.header))
+      JSON.stringify(
+        columns.map((col) =>
+          typeof col.header === "string" ? col.header : col.headerForExport
+        )
+      )
     ); // deepcopy so that we don't get the raw header with functions
     const rows = data.map((row) => columns.map((col) => row[col.accessorKey]));
     const csvString = unparse([headers, ...rows]);
