@@ -23,7 +23,8 @@ export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
   date,
   location,
   formattedPersonnels,
-  id
+  id,
+  includeTagline = true
 ) =>
   `
       *Guard Duty ${dayjs(date).format("DDMMYYYY")}*
@@ -34,7 +35,7 @@ export const CLIPBOARD_TEMPLATE_GD_SINGLE = (
       ---------------------------
       id for nerds: \`${id}\`
       ---------------------------
-      Powered by BadgerHQ.`
+      ${includeTagline && "Powered by BadgerHQ."}`
     .split("\n")
     .map((line) => line.trim())
     .join("\n");

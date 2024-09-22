@@ -63,11 +63,13 @@ const GuardDuty = () => {
                 oneGD.date,
                 oneGD.location,
                 formattedPersonnels,
-                oneGD.id
+                oneGD.id,
+                false // include tagline
               );
             })
           : `No guard duty for this month.`
       }
+      Powered by Badger HQ
     `
       .split("\n")
       .map((line) => line.trim())
