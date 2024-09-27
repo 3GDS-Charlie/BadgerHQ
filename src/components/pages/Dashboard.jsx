@@ -9,9 +9,10 @@ import {
   TabsTrigger
 } from "@/components/shared/Tabs";
 import AuthContext from "@/lib/context/AuthContext";
-import GuardDuty from "../dashboard/GuardDuty";
-import NominalRoll from "../dashboard/NominalRoll";
-import ManageDutyPoints from "../dashboard/ManageDutyPoints";
+import GuardDuty from "@/components/dashboard/GuardDuty";
+import NominalRoll from "@/components/dashboard/NominalRoll";
+import ManageDutyPoints from "@/components/dashboard/ManageDutyPoints";
+import MoveouteTemplate from "@/components/dashboard/MoveoutTemplate";
 
 const DashboardPage = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const DashboardPage = () => {
       <div className="m-auto h-full w-full max-w-screen-xl px-6 sm:px-16 mb-16">
         <h1 className="font-bold text-2xl">Dashboard</h1>
         <Tabs value={currentTab || "overview"} className="mt-4">
-          <TabsList className="overflow-x-auto">
+          <TabsList className="justify-start overflow-x-auto w-full md:w-fit">
             <TabsTrigger
               onClick={() =>
                 router.replace({
@@ -56,6 +57,16 @@ const DashboardPage = () => {
             >
               Nominal Roll
             </TabsTrigger>
+            <TabsTrigger
+              onClick={() =>
+                router.replace({
+                  query: { ...router.query, tab: "moveoutTemplate" }
+                })
+              }
+              value="moveoutTemplate"
+            >
+              Moveout Template
+            </TabsTrigger>
             {/* <TabsTrigger
               onClick={() =>
                 router.replace({
@@ -75,6 +86,9 @@ const DashboardPage = () => {
           </TabsContent>
           <TabsContent value="nominalRoll">
             <NominalRoll />
+          </TabsContent>
+          <TabsContent value="moveoutTemplate">
+            <MoveouteTemplate />
           </TabsContent>
           <TabsContent value="manageDutyPoints">
             <ManageDutyPoints />

@@ -46,18 +46,19 @@ const NominalRoll = () => {
 
   return (
     <div className="flex flex-col mt-4">
-      <span className="flex justify-between space-x-4 items-center mb-4">
+      <span className="flex flex-col md:flex-row md:justify-between md:space-x-4 md:items-center mb-4">
         <span>
           <h2 className="font-semibold text-lg">Nominal Roll</h2>
           <p className="text-sm text-left text-slate-500">
             Duty points are added at the end of every month.
           </p>
         </span>
-        <span className="flex gap-x-4">
+        <span className="flex gap-x-4 md:mt-0 mt-4">
           <Combobox
             value={platoon}
             setValue={setPlatoon}
             data={PLATOONS}
+            className="md:w-fit w-full"
             placeholder="Search platoon"
           />
         </span>

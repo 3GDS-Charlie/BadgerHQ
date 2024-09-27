@@ -154,7 +154,7 @@ export function DataTable({
     <>
       <span className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
         {search ? (
-          <div className="relative flex-1 mt-0 sm:mt-4">
+          <div className="relative flex-1">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by name..."
