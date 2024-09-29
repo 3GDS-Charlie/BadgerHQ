@@ -19,6 +19,28 @@ import {
 } from "@/components/shared/Tooltip";
 import { calculateGDPoints } from "@/lib/utils";
 
+export const DEFAULT_EQUIPMENT_LIST = [
+  "SAR21",
+  "M203",
+  "LMG",
+  "GPMG",
+  "M110",
+  "MATADOR",
+  "BANGALORE",
+  "PRC 650",
+  "COMPASS",
+  "SAR21 MAGAZINES",
+  "LMG MAGAZINES",
+  "M110 MAGAZINE",
+  "SAR21 BLANK ATTACHMENT",
+  "LMG BLANK ATTACHMENT",
+  "GPMG BLANK ATTACHMENT",
+  "PRC 940",
+  "SPOTGEN",
+  "MINI N/SEAS",
+  "LLORIS"
+];
+
 export const CORE_GROUP_EMAILS = [
   "thamkeilok@charlie.com",
   "gregnscsm@charlie.com",

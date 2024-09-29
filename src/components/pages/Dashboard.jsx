@@ -57,7 +57,7 @@ const DashboardPage = () => {
             >
               Nominal Roll
             </TabsTrigger>
-            <TabsTrigger
+            {/* <TabsTrigger
               onClick={() =>
                 router.replace({
                   query: { ...router.query, tab: "moveoutTemplate" }
@@ -66,7 +66,7 @@ const DashboardPage = () => {
               value="moveoutTemplate"
             >
               Moveout Template
-            </TabsTrigger>
+            </TabsTrigger> */}
             {/* <TabsTrigger
               onClick={() =>
                 router.replace({
