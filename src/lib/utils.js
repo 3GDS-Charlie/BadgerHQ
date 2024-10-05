@@ -86,13 +86,15 @@ export const calculateGDPoints = (date, twoPoints = false) => {
   // check what day of the week is it
   const dayOfTheWeek = new Date(date).getDay(); // 0 = sunday, 1 = monday, 6 = saturday, 5 = friday
   // Sat/sun/public holiday
-  if (dayOfTheWeek === 1 || dayOfTheWeek === 6 || twoPoints) {
+  if (dayOfTheWeek === 0 || dayOfTheWeek === 6 || twoPoints) {
     points = 2;
   } else if (dayOfTheWeek === 5) {
     points = 1.5;
   }
   return points;
 };
+
+export const getDayOfWeekName = (date) => dayjs(date).format("dddd");
 
 export const copyToClipboard = (text) => {
   navigator.clipboard.writeText(text);

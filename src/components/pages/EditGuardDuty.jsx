@@ -20,6 +20,7 @@ import { createClient } from "@/lib/supabase/component";
 import {
   calculateGDPoints,
   fillMissingAppointment,
+  getDayOfWeekName,
   isDatePast
 } from "@/lib/utils";
 import MainLayout from "@/components/layout/MainLayout";
@@ -339,7 +340,7 @@ const EditGuardDutyPage = () => {
               <code className="font-mono text-gray-600 text-xs font-medium">
                 <b>Date:</b>{" "}
                 {data?.date
-                  ? dayjs(data.date).format("MMM DD, YYYY")
+                  ? `${dayjs(data?.date).format("MMM DD, YYYY")} (${getDayOfWeekName(data?.date)})`
                   : "No Data"}
               </code>
               <code className="font-mono text-gray-600 text-xs font-medium">

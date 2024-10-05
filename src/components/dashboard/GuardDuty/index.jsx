@@ -12,6 +12,7 @@ import {
   cn,
   copyToClipboard,
   fillMissingAppointment,
+  getDayOfWeekName,
   isDatePast
 } from "@/lib/utils";
 import {
@@ -107,7 +108,8 @@ const GuardDuty = () => {
         .from("guard_duty_dates")
         .select()
         .gte("date", startOfMonth)
-        .lt("date", endOfMonth);
+        .lt("date", endOfMonth)
+        .order("date");
 
       if (error1) {
         console.error(error1);
@@ -192,7 +194,7 @@ const GuardDuty = () => {
             <code className="font-mono text-gray-600 text-xs font-medium">
               <b>Date:</b>{" "}
               {oneData?.date
-                ? dayjs(oneData.date).format("MMM DD, YYYY")
+                ? `${dayjs(oneData.date).format("MMM DD, YYYY")} (${getDayOfWeekName(oneData?.date)})`
                 : "No Data"}
             </code>
             <code className="font-mono text-gray-600 text-xs font-medium">
@@ -235,7 +237,10 @@ const GuardDuty = () => {
       {/* TOP */}
       <span className="flex flex-col md:flex-row justify-between md:space-x-4 mb-4">
         <span className="flex flex-col">
-          <h2 className="font-semibold text-lg mb-4">Guard Duty</h2>
+          <h2 className="font-semibold text-lg">Guard Duty</h2>
+          <p className="text-sm text-left text-slate-500 mb-4">
+            Duty dates sorted in ascending order.
+          </p>
           <span className="flex gap-x-4">
             <Combobox
               value={year}
