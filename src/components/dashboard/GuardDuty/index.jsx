@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { Copy, Loader2 } from "lucide-react";
+import { Copy, Ellipsis, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Combobox } from "@/components/shared/Combobox";
 import { CLIPBOARD_TEMPLATE_GD_SINGLE, MONTHS, YEARS } from "@/lib/data";
@@ -13,7 +13,8 @@ import {
   copyToClipboard,
   fillMissingAppointment,
   getDayOfWeekName,
-  isDatePast
+  isDatePast,
+  mapPltStrToDBValue
 } from "@/lib/utils";
 import {
   Tooltip,
@@ -21,6 +22,14 @@ import {
   TooltipTrigger
 } from "@/components/shared/Tooltip";
 import { useToast } from "@/components/shared/Toast/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/shared/DropdownMenu";
 
 const GuardDuty = () => {
   const [data, setData] = useState([]);
@@ -46,21 +55,49 @@ const GuardDuty = () => {
     december: "12"
   };
 
-  const generateClipboard = () => {
+  const generateClipboard = (plt) => {
     const clipboard = `
-      *${dayjs().format("MMM").toUpperCase()} Guard Duties*
+      *${dayjs().format("MMM").toUpperCase()} Guard Duties (3GDS/C ${plt || "All"})*
       ---------------------------
       ${
         data.length > 0
           ? data
               .map((oneGD) => {
-                const formattedPersonnels = oneGD?.personnels
-                  .map((onePersonnel) =>
-                    !onePersonnel.name
-                      ? `- EMPTY (${onePersonnel.appointment})`
-                      : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
-                  )
-                  .join("\n");
+                let pltExistFlag = true;
+                let formattedPersonnels = [];
+                if (plt) {
+                  pltExistFlag = false;
+                  const formattedPlt = mapPltStrToDBValue(plt);
+                  formattedPersonnels = oneGD?.personnels
+                    .filter(
+                      (onePersonnel) =>
+                        onePersonnel.platoon === formattedPlt ||
+                        onePersonnel.appointment === "GUARD IC" ||
+                        onePersonnel.appointment === "GUARD COMMANDER"
+                    )
+                    .map((onePersonnel) => {
+                      if (onePersonnel.platoon === formattedPlt) {
+                        pltExistFlag = true;
+                      }
+                      return !onePersonnel.name
+                        ? `- EMPTY (${onePersonnel.appointment})`
+                        : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`;
+                    })
+                    .join("\n");
+                } else {
+                  formattedPersonnels = oneGD?.personnels
+                    .map((onePersonnel) =>
+                      !onePersonnel.name
+                        ? `- EMPTY (${onePersonnel.appointment})`
+                        : `- ${onePersonnel.rank} ${onePersonnel.name} (${onePersonnel.appointment}) - ${onePersonnel.contact}`
+                    )
+                    .join("\n");
+                }
+
+                if (!pltExistFlag) {
+                  return "";
+                }
+
                 return CLIPBOARD_TEMPLATE_GD_SINGLE(
                   oneGD.date,
                   oneGD.location,
@@ -256,24 +293,72 @@ const GuardDuty = () => {
             />
           </span>
         </span>
-        <Tooltip>
-          <TooltipTrigger className="text-left mt-4 sm:mt-0" asChild>
-            <Button
-              variant="secondary"
-              disabled={data.length === 0}
-              onClick={generateClipboard}
-              className="w-fit"
-            >
-              <Copy className="w-4 h-4 mr-2" />
-              Copy as Text
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-sm">
-              Copy to clipboard in whatsapp/tele friendly format
-            </p>
-          </TooltipContent>
-        </Tooltip>
+        <span className="flex gap-x-4">
+          <Tooltip>
+            <TooltipTrigger className="text-left mt-4 sm:mt-0" asChild>
+              <Button
+                variant="secondary"
+                disabled={data.length === 0}
+                onClick={() => generateClipboard()}
+                className="w-fit"
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copy as Text
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p className="text-sm">
+                Copy to clipboard in whatsapp/tele friendly format
+              </p>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <TooltipTrigger className="text-left mt-4 sm:mt-0" asChild>
+                  <Button
+                    variant="secondary"
+                    disabled={data.length === 0}
+                    className="w-fit"
+                  >
+                    <Ellipsis className="w-4 h-4" />
+                  </Button>
+                </TooltipTrigger>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Copy by Plt</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  disabled={data.length === 0}
+                  onClick={() => generateClipboard("Coy HQ")}
+                >
+                  Coy HQ
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  disabled={data.length === 0}
+                  onClick={() => generateClipboard("Plt 7")}
+                >
+                  Plt 7
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  disabled={data.length === 0}
+                  onClick={() => generateClipboard("Plt 8")}
+                >
+                  Plt 8
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  disabled={data.length === 0}
+                  onClick={() => generateClipboard("Plt 9")}
+                >
+                  Plt 9
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <TooltipContent>
+              <p className="text-sm">More options</p>
+            </TooltipContent>
+          </Tooltip>
+        </span>
       </span>
       {/* LIST */}
       <div className="flex flex-col gap-y-4">

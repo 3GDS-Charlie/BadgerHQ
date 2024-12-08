@@ -106,3 +106,15 @@ export const makeDictionary = (arr) =>
     acc[curr.label] = curr.value;
     return acc;
   }, {});
+
+export const mapPltStrToDBValue = (pltStr) => {
+  let rawPlt = "HQ";
+  if (pltStr === "Plt 7") {
+    rawPlt = "7";
+  } else if (pltStr === "Plt 8") {
+    rawPlt = "8";
+  } else if (pltStr === "Plt 9") {
+    rawPlt = "9";
+  }
+  return rawPlt;
+};
