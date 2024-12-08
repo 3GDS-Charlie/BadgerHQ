@@ -428,8 +428,7 @@ export const NOMINAL_ROLL_COLUMNS = [
       if (!name) {
         return <p className="text-red-500">Empty</p>;
       }
-      const id = row.getValue("id");
-      return <Link href={`/dashboard/viewProfile/${id}`}>{name}</Link>;
+      return <p>{name}</p>;
     }
   },
   {
@@ -623,8 +622,7 @@ export const DUTY_POINTS_CUSTOM_NOMINAL_ROLL_COLUMNS = [
       if (!name) {
         return <p className="text-red-500">Empty</p>;
       }
-      const id = row.getValue("id");
-      return <Link href={`/dashboard/viewProfile/${id}`}>{name}</Link>;
+      return <p>{name}</p>;
     }
   },
   {
