@@ -25,9 +25,9 @@ const DashboardPage = () => {
     <MainLayout title="Dashboard - Badger HQ">
       <div className="m-auto h-full w-full max-w-screen-xl px-6 sm:px-16 mb-16">
         <h1 className="font-bold text-2xl">Dashboard</h1>
-        <Tabs value={currentTab || "overview"} className="mt-4">
+        <Tabs value={currentTab || "guardDuty"} className="mt-4">
           <TabsList className="justify-start overflow-x-auto w-full md:w-fit">
-            <TabsTrigger
+            {/* <TabsTrigger
               onClick={() =>
                 router.replace({
                   query: { ...router.query, tab: "overview" }
@@ -36,7 +36,7 @@ const DashboardPage = () => {
               value="overview"
             >
               Overview
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger
               onClick={() =>
                 router.replace({
