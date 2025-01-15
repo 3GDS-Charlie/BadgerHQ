@@ -10,6 +10,7 @@ import { Button, buttonVariants } from "@/components/shared/Button";
 import { createClient } from "@/lib/supabase/component";
 import {
   cn,
+  convertToMMM,
   copyToClipboard,
   fillMissingAppointment,
   getDayOfWeekName,
@@ -57,7 +58,7 @@ const GuardDuty = () => {
 
   const generateClipboard = (plt) => {
     const clipboard = `
-      *${dayjs().format("MMM").toUpperCase()} Guard Duties (3GDS/C ${plt || "All"})*
+      *${convertToMMM(month).toUpperCase()} Guard Duties (3GDS/C ${plt || "All"})*
       ---------------------------
       ${
         data.length > 0

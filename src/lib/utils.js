@@ -118,3 +118,19 @@ export const mapPltStrToDBValue = (pltStr) => {
   }
   return rawPlt;
 };
+
+export const convertToMMM = (monthLowercase) => {
+  // Capitalize the first letter of the month
+  const monthCapitalized =
+    monthLowercase.charAt(0).toUpperCase() + monthLowercase.slice(1);
+
+  // Parse the month name with an arbitrary day and year
+  const date = dayjs(`${monthCapitalized} 1, 2023`, "MMMM D, YYYY");
+
+  // Check if the date is valid
+  if (date.isValid()) {
+    // Format the date to return the MMM format
+    return date.format("MMM");
+  }
+  return "error";
+};
